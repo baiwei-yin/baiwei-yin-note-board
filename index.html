@@ -1,244 +1,509 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>水产肉类/新鲜蔬果/熟食行业风向看板 · 小红书电商</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --red: #ff2442; --orange: #ff6b35;
-      --warm: #fff8f4; --card-bg: #ffffff;
-      --text: #1a1a1a; --text-sub: #888;
-      --border: #f0ebe4;
-    }
-    body { font-family: -apple-system, "PingFang SC", sans-serif; background: var(--warm); color: var(--text); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生鲜行业风向看板 · 小红书电商</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif; background: #f5f5f0; color: #1a1a1a; font-size: 13px; }
 
-    .header {
-      background: linear-gradient(135deg, #ff2442 0%, #ff6b35 100%);
-      padding: 28px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .header-title { font-size: 22px; font-weight: 800; color: #fff; }
-    .header-sub { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 3px; }
-    .header-week { font-size: 28px; font-weight: 800; color: #fff; }
-    .header-date { font-size: 12px; color: rgba(255,255,255,0.7); }
+  /* 顶部 Banner */
+  .banner {
+    background: linear-gradient(135deg, #2d8a4e 0%, #1a6b36 100%);
+    color: white;
+    padding: 16px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .banner-left h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+  .banner-left p { font-size: 12px; opacity: 0.85; margin-top: 3px; }
+  .banner-right { text-align: right; }
+  .banner-week { font-size: 36px; font-weight: 800; line-height: 1; }
+  .banner-date { font-size: 11px; opacity: 0.8; margin-top: 2px; }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 36px 28px 80px; }
+  /* 主内容区 */
+  .container { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
 
-    .section-label {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 16px; font-weight: 800; color: var(--text);
-      margin: 36px 0 16px;
-    }
-    .section-label .icon { font-size: 20px; }
-    .tag {
-      font-size: 11px; font-weight: 600; padding: 3px 10px;
-      background: #fff0f2; color: var(--red); border-radius: 20px;
-    }
+  /* Section 标题 */
+  .section-title {
+    font-size: 13px; font-weight: 700; color: #1a1a1a;
+    border-left: 3px solid #2d8a4e; padding-left: 8px;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .sub { font-size: 11px; color: #888; font-weight: 400; }
+  .section { margin-bottom: 28px; }
 
-    /* 基准卡片 */
-    .bench-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .bench-card {
-      background: var(--card-bg); border-radius: 16px;
-      border: 1.5px solid var(--border); padding: 20px;
-    }
-    .bench-card.top { border-color: #ffd700; }
-    .bench-card.low { border-color: #e0e0e0; }
-    .bench-tier { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
-    .bench-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-    .bench-label { font-size: 12px; color: var(--text-sub); }
-    .bench-val { font-size: 22px; font-weight: 800; color: var(--red); }
-    .bench-unit { font-size: 12px; font-weight: 400; color: var(--text-sub); margin-left: 2px; }
+  /* 行业基准数据 */
+  .benchmark-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .benchmark-card {
+    background: white; border-radius: 10px; padding: 14px 16px;
+    border-top: 3px solid #ccc;
+  }
+  .benchmark-card.top { border-top-color: #ff6b35; }
+  .benchmark-card.avg { border-top-color: #2d8a4e; }
+  .benchmark-card.low { border-top-color: #ffb800; }
+  .benchmark-card h3 { font-size: 12px; color: #666; margin-bottom: 10px; }
+  .metric-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .metric-label { font-size: 11px; color: #888; }
+  .metric-value { font-size: 20px; font-weight: 800; }
+  .metric-unit { font-size: 11px; color: #888; }
+  .top .metric-value { color: #ff6b35; }
+  .avg .metric-value { color: #2d8a4e; }
+  .low .metric-value { color: #ffb800; }
+  .benchmark-note { font-size: 10px; color: #aaa; margin-top: 8px; line-height: 1.4; }
 
-    /* 内容风向 */
-    .directions-box { background: var(--card-bg); border-radius: 16px; border: 1.5px solid var(--border); padding: 20px; }
-    .trend-item { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.6; }
-    .trend-item:last-child { border-bottom: none; }
+  /* 内容风向 Tabs */
+  .direction-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .direction-tab {
+    flex: 1; min-width: 160px; border-radius: 10px; padding: 12px 14px;
+    color: white;
+  }
+  .direction-tab.fruit { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+  .direction-tab.veg { background: linear-gradient(135deg, #26de81, #20bf6b); }
+  .direction-tab.meat { background: linear-gradient(135deg, #fd9644, #e67e22); }
+  .direction-tab.seafood { background: linear-gradient(135deg, #45aaf2, #2980b9); }
+  .direction-tab h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .direction-tab ol { padding-left: 16px; }
+  .direction-tab li { font-size: 11px; line-height: 1.6; margin-bottom: 4px; opacity: 0.95; }
 
-    /* 封面候选表格 */
-    .table-wrap { background: var(--card-bg); border-radius: 16px; border: 1.5px solid var(--border); overflow: hidden; }
-    table { width: 100%; border-collapse: collapse; }
-    th { background: #fff8f4; padding: 10px 14px; font-size: 12px; font-weight: 700; text-align: left; color: #666; }
-    td { padding: 10px 14px; font-size: 13px; border-top: 1px solid var(--border); }
-    td a { color: var(--red); text-decoration: none; }
-    td a:hover { text-decoration: underline; }
+  /* 高表现笔记 */
+  .notes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .note-card {
+    background: white; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .note-cover {
+    height: 140px; background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px; position: relative;
+  }
+  .note-cover .ctr-badge {
+    position: absolute; top: 8px; right: 8px;
+    background: #ff6b35; color: white;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 20px;
+  }
+  .note-cover .ctr-badge.high { background: #2d8a4e; }
+  .note-info { padding: 10px 12px; }
+  .note-cat { font-size: 10px; color: #2d8a4e; font-weight: 600; margin-bottom: 3px; }
+  .note-title { font-size: 12px; font-weight: 600; line-height: 1.4; color: #1a1a1a; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .note-stats { display: flex; gap: 10px; }
+  .note-stat { font-size: 10px; color: #888; }
+  .note-stat span { color: #ff6b35; font-weight: 700; }
 
-    /* 标题列表 */
-    .titles-box { background: var(--card-bg); border-radius: 16px; border: 1.5px solid var(--border); padding: 20px; }
-    .title-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .title-item:last-child { border-bottom: none; }
-    .title-meta { font-size: 11px; color: var(--text-sub); margin-left: 8px; }
+  /* 标题公式 */
+  .formula-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .formula-card { background: white; border-radius: 10px; padding: 14px 16px; }
+  .formula-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: #2d8a4e; color: white; border-radius: 50%; font-size: 11px; font-weight: 700; margin-right: 6px; flex-shrink: 0; }
+  .formula-row { display: flex; align-items: flex-start; margin-bottom: 10px; }
+  .formula-body { flex: 1; }
+  .formula-name { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+  .formula-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+  .formula-tag { background: #f0f8f2; color: #2d8a4e; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+  .formula-tag.orange { background: #fff4ee; color: #ff6b35; }
+  .formula-quote { font-size: 11px; color: #888; font-style: italic; line-height: 1.5; border-left: 2px solid #e0e0e0; padding-left: 8px; }
 
-    /* 二级类目 */
-    .cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .cat-item { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); padding: 12px 16px; font-size: 13px; }
+  /* 热点话题 */
+  .hotspot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .hotspot-card { background: white; border-radius: 10px; padding: 12px 14px; }
+  .hotspot-card h4 { font-size: 11px; color: #888; margin-bottom: 8px; font-weight: 600; }
+  .kw-list { display: flex; flex-wrap: wrap; gap: 5px; }
+  .kw { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; }
+  .kw.red { background: #fff0f0; color: #e74c3c; }
+  .kw.orange { background: #fff4ee; color: #e67e22; }
+  .kw.green { background: #f0f8f2; color: #2d8a4e; }
+  .kw.blue { background: #f0f7ff; color: #2980b9; }
+  .kw.gray { background: #f5f5f5; color: #666; }
 
-    .footer {
-      text-align: center; color: #aaa; font-size: 12px;
-      padding: 24px; border-top: 1px solid var(--border);
-      margin-top: 60px;
-    }
-  </style>
+  /* 品类风向 */
+  .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .category-card { background: white; border-radius: 10px; padding: 14px 16px; }
+  .category-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .cat-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+  .cat-badge.fruit { background: #fff0f0; color: #e74c3c; }
+  .cat-badge.veg { background: #f0f8f2; color: #2d8a4e; }
+  .cat-badge.meat { background: #fff4ee; color: #e67e22; }
+  .cat-badge.seafood { background: #f0f7ff; color: #2980b9; }
+  .category-card p { font-size: 11px; color: #555; line-height: 1.7; }
+  .category-card .highlight { color: #2d8a4e; font-weight: 600; }
+
+  /* 数据基准小字 */
+  .data-note { font-size: 10px; color: #aaa; margin-top: 6px; }
+
+  footer { text-align: center; padding: 20px; font-size: 10px; color: #ccc; }
+</style>
 </head>
 <body>
 
-<header class="header">
-  <div>
-    <div class="header-title">水产肉类/新鲜蔬果/熟食 行业风向看板</div>
-    <div class="header-sub">小红书电商 · 商品笔记内容指引 · 共200篇有效笔记</div>
+<!-- 顶部 Banner -->
+<div class="banner">
+  <div class="banner-left">
+    <h1>🥬 生鲜行业风向看板</h1>
+    <p>小红书电商 · 水产肉类 / 新鲜蔬果 / 熟食 · 每周更新</p>
   </div>
-  <div style="text-align:right">
-    <div class="header-week">W15</div>
-    <div class="header-date">20260403 — 20260410</div>
+  <div class="banner-right">
+    <div class="banner-week">W15</div>
+    <div class="banner-date">2026-04-03 — 04-09</div>
   </div>
-</header>
+</div>
 
 <div class="container">
 
-  <!-- 行业基准 -->
-  <div class="section-label"><span class="icon">📊</span>行业基准数据<span class="tag">近7天 · 动销商家</span></div>
-  <div class="bench-grid">
-    <div class="bench-card top">
-      <div class="bench-tier">🏆 TOP商家</div>
-      <div class="bench-row">
-        <span class="bench-label">商笔 CTR</span>
-        <span class="bench-val">15.5<span class="bench-unit">%</span></span>
-      </div>
-      <div class="bench-row">
-        <span class="bench-label">商品转化率</span>
-        <span class="bench-val">21.0<span class="bench-unit">%</span></span>
-      </div>
+  <!-- 行业基准数据 -->
+  <div class="section">
+    <div class="section-title">
+      🏁 行业基准数据
+      <span class="sub">近7天 · 动销商家</span>
     </div>
-    <div class="bench-card avg">
-      <div class="bench-tier">📊 行业均值</div>
-      <div class="bench-row">
-        <span class="bench-label">商笔 CTR</span>
-        <span class="bench-val">7.4<span class="bench-unit">%</span></span>
+    <div class="benchmark-grid">
+      <div class="benchmark-card top">
+        <h3>🏆 TOP商家</h3>
+        <div class="metric-row">
+          <span class="metric-label">日均曝光</span>
+          <div><span class="metric-value">5+</span><span class="metric-unit">万次</span></div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">封面 CTR</span>
+          <div><span class="metric-value">15.5</span><span class="metric-unit">%</span></div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">商品转化率</span>
+          <div><span class="metric-value">21+</span><span class="metric-unit">%</span></div>
+        </div>
+        <p class="benchmark-note">参考最近 20% 动销商家参考区间</p>
       </div>
-      <div class="bench-row">
-        <span class="bench-label">商品转化率</span>
-        <span class="bench-val">10.7<span class="bench-unit">%</span></span>
+      <div class="benchmark-card avg">
+        <h3>📊 行业均值</h3>
+        <div class="metric-row">
+          <span class="metric-label">日均曝光</span>
+          <div><span class="metric-value">1–2</span><span class="metric-unit">万次</span></div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">封面 CTR</span>
+          <div><span class="metric-value">7.4</span><span class="metric-unit">%</span></div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">商品转化率</span>
+          <div><span class="metric-value">10.7</span><span class="metric-unit">%</span></div>
+        </div>
+        <p class="benchmark-note">样本量 200 条 高曝光商品笔记均值</p>
       </div>
-    </div>
-    <div class="bench-card low">
-      <div class="bench-tier">⚠️ 待提升</div>
-      <div class="bench-row">
-        <span class="bench-label">商笔 CTR</span>
-        <span class="bench-val">2.7<span class="bench-unit">%</span></span>
-      </div>
-      <div class="bench-row">
-        <span class="bench-label">商品转化率</span>
-        <span class="bench-val">4.9<span class="bench-unit">%</span></span>
+      <div class="benchmark-card low">
+        <h3>⚠️ 待提升</h3>
+        <div class="metric-row">
+          <span class="metric-label">日均曝光</span>
+          <div><span class="metric-value">&lt;1</span><span class="metric-unit">万次</span></div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">封面 CTR</span>
+          <div><span class="metric-value">&lt;2.7</span><span class="metric-unit">%</span></div>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">商品转化率</span>
+          <div><span class="metric-value">&lt;4.9</span><span class="metric-unit">%</span></div>
+        </div>
+        <p class="benchmark-note">低于行业后 30%，需要重点关注</p>
       </div>
     </div>
   </div>
 
   <!-- 本周内容风向 -->
-  <div class="section-label"><span class="icon">🔥</span>本周内容风向<span class="tag">基于真实数据分析</span></div>
-  <div class="directions-box">
-    <div class="trend-item">📌 情绪共鸣型（感动/破防/主理人故事），占比约2%</div>
-<div class="trend-item">📌 场景精准型（备考/宿舍/减脂等垂直场景），占比约4%</div>
-<div class="trend-item">📌 结果前置型（X天/X斤/断妆等效果描述），占比约7%</div>
-<div class="trend-item">📌 价格冲击型（超低价/包邮/尝鲜），占比约10%</div>
-
+  <div class="section">
+    <div class="section-title">
+      🧭 本周内容风向
+      <span class="sub">基于真实笔记标题分析</span>
+    </div>
+    <div class="direction-tabs">
+      <div class="direction-tab fruit">
+        <h4>🍑 新鲜水果</h4>
+        <ol>
+          <li>亲情主理人超低价：「我爸说便宜卖总比烂地里强」产地紧迫感+情感共鸣双爆发，本周最强模板</li>
+          <li>被时代抛弃系列：「谁来救救这个被时代抛弃的水果」戏剧反差感强，封面CTR 18%+</li>
+          <li>价格冲击三连喊：「X元一箱！X元一箱！重要的事情说三遍」简单暴力，商卡CTR 38%</li>
+        </ol>
+      </div>
+      <div class="direction-tab veg">
+        <h4>🌽 新鲜蔬菜</h4>
+        <ol>
+          <li>购买力认知冲击：「现在年轻人对8块钱的购买力毫无概念」获本周全类目曝光冠军（847W）</li>
+          <li>减脂功效绑定：「控体/代餐/低卡」+具体场景，转化率均值最高达 22%</li>
+          <li>产地直发不经销商：「自家种的不想卖给二道贩子」信任感强+价格差异化</li>
+        </ol>
+      </div>
+      <div class="direction-tab meat">
+        <h4>🥩 生肉/熟食</h4>
+        <ol>
+          <li>100元购买力展示：「才100多块够我吃一个月减脂餐」以金额作为性价比锚点</li>
+          <li>控体场景精准切入：无牛油/低卡/轻食版本，明确标注卡路里，封面CTR 10%+</li>
+          <li>跟风种草型：「小红书跟风入的XX」借助平台信任背书降低购买决策门槛</li>
+        </ol>
+      </div>
+      <div class="direction-tab seafood">
+        <h4>🦐 海鲜水产</h4>
+        <ol>
+          <li>性价比冲击：「100块够我吃半个月」大容量低单价，强调极致性价比</li>
+          <li>厚切/原切品质感：「每一盒都是厚切才发货」产品工艺可视化，商卡CTR 28%+</li>
+          <li>轻食减脂联动：「低卡无油墨鱼丸」锁定健康人群，转化率 15%+</li>
+        </ol>
+      </div>
+    </div>
   </div>
 
-  <!-- 高CTR封面候选 -->
-  <div class="section-label"><span class="icon">🖼️</span>高双高封面候选<span class="tag">封面CTR≥8% · 商卡CTR≥15%</span></div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>笔记标题</th>
-          <th>曝光量</th>
-          <th>封面CTR</th>
-          <th>商卡CTR</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69cb3047000000001a02e854" target="_blank">现在年轻人对8块钱的购买力毫无概念</a></td>
-          <td>847万</td>
-          <td>13.32%</td>
-          <td>21.07%</td>
-        </tr>
-<tr>
-          <td>2</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69cb1d81000000002302782b" target="_blank">半山的芒果🥭我爸让我想办法，那就9.9💰30个</a></td>
-          <td>273万</td>
-          <td>9.71%</td>
-          <td>19.6%</td>
-        </tr>
-<tr>
-          <td>3</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69cb7ce7000000002202a684" target="_blank">我爸说年后就18.9一箱！！</a></td>
-          <td>188万</td>
-          <td>12.92%</td>
-          <td>22.64%</td>
-        </tr>
-<tr>
-          <td>4</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69d62393000000001d01e24a" target="_blank">现在年轻人对8块钱的购买力毫无概念</a></td>
-          <td>125万</td>
-          <td>8.4%</td>
-          <td>18.4%</td>
-        </tr>
-<tr>
-          <td>5</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69c31c980000000022003b5a" target="_blank">我爸说卖了总比烂了强~~9.9发30个吧</a></td>
-          <td>119万</td>
-          <td>9.07%</td>
-          <td>17.57%</td>
-        </tr>
-<tr>
-          <td>6</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69cd20540000000023004db6" target="_blank">现在的年轻人对12r的购买力毫无概念呀！😆</a></td>
-          <td>117万</td>
-          <td>10.51%</td>
-          <td>38.0%</td>
-        </tr>
-
-      </tbody>
-    </table>
+  <!-- 高表现笔记 -->
+  <div class="section">
+    <div class="section-title">
+      🔥 本周高表现笔记封面
+      <span class="sub">封面CTR≥8% &amp; 商卡CTR≥15% · W15 精选</span>
+    </div>
+    <div class="notes-grid">
+      <div class="note-card">
+        <div class="note-cover" style="background:linear-gradient(135deg,#fff5e6,#ffe0b2);">
+          🌽
+          <div class="ctr-badge high">商卡CTR 21.1%</div>
+        </div>
+        <div class="note-info">
+          <div class="note-cat">新鲜蔬菜/蔬菜制品</div>
+          <div class="note-title">现在年轻人对8块钱的购买力毫无概念</div>
+          <div class="note-stats">
+            <div class="note-stat">曝光 <span>847万</span></div>
+            <div class="note-stat">封面CTR <span>13.3%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-card">
+        <div class="note-cover" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);">
+          🍋
+          <div class="ctr-badge high">商卡CTR 19.7%</div>
+        </div>
+        <div class="note-info">
+          <div class="note-cat">新鲜水果</div>
+          <div class="note-title">柠檬🍋不知火——稀有小众品 上架啦‼️</div>
+          <div class="note-stats">
+            <div class="note-stat">曝光 <span>416万</span></div>
+            <div class="note-stat">封面CTR <span>3.7%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-card">
+        <div class="note-cover" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0);">
+          🥭
+          <div class="ctr-badge high">商卡CTR 19.6%</div>
+        </div>
+        <div class="note-info">
+          <div class="note-cat">新鲜水果</div>
+          <div class="note-title">半山的芒果🥭我爸让我想办法，那就9.9💰30个</div>
+          <div class="note-stats">
+            <div class="note-stat">曝光 <span>273万</span></div>
+            <div class="note-stat">封面CTR <span>9.7%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-card">
+        <div class="note-cover" style="background:linear-gradient(135deg,#e8eaf6,#c5cae9);">
+          🍊
+          <div class="ctr-badge high">商卡CTR 22.6%</div>
+        </div>
+        <div class="note-info">
+          <div class="note-cat">新鲜水果</div>
+          <div class="note-title">我爸说年后就18.9一箱！！</div>
+          <div class="note-stats">
+            <div class="note-stat">曝光 <span>267万</span></div>
+            <div class="note-stat">封面CTR <span>12.9%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-card">
+        <div class="note-cover" style="background:linear-gradient(135deg,#fff8e1,#ffecb3);">
+          🍑
+          <div class="ctr-badge high">商卡CTR 38.0%</div>
+        </div>
+        <div class="note-info">
+          <div class="note-cat">新鲜水果</div>
+          <div class="note-title">19一箱19一箱19一箱的报恩西瓜！！脆甜爽口～</div>
+          <div class="note-stats">
+            <div class="note-stat">曝光 <span>399万</span></div>
+            <div class="note-stat">封面CTR <span>4.5%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-card">
+        <div class="note-cover" style="background:linear-gradient(135deg,#e0f2f1,#b2dfdb);">
+          🌽
+          <div class="ctr-badge high">商卡CTR 38.0%</div>
+        </div>
+        <div class="note-info">
+          <div class="note-cat">新鲜蔬菜/蔬菜制品</div>
+          <div class="note-title">现在的年轻人对12r的购买力毫无概念呀！😆</div>
+          <div class="note-stats">
+            <div class="note-stat">曝光 <span>117万</span></div>
+            <div class="note-stat">封面CTR <span>10.5%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- 本周高曝光标题 -->
-  <div class="section-label"><span class="icon">📝</span>本周高曝光标题参考<span class="tag">TOP 10</span></div>
-  <div class="titles-box">
-    <div class="title-item">「求你们吃这家凤梨❗️不好吃我一胎八个儿子😭」<span class="title-meta">1062万曝光 · 封面CTR 4.17%</span></div>
-<div class="title-item">「现在年轻人对8块钱的购买力毫无概念」<span class="title-meta">847万曝光 · 封面CTR 13.32%</span></div>
-<div class="title-item">「成功替代了车厘子在我心里的位置……」<span class="title-meta">590万曝光 · 封面CTR 3.8%</span></div>
-<div class="title-item">「柠檬🍋不知火——稀有小众品 上架啦‼️」<span class="title-meta">416万曝光 · 封面CTR 3.73%</span></div>
-<div class="title-item">「8r一箱！8r一箱！8r一箱！重要的事情说三次」<span class="title-meta">412万曝光 · 封面CTR 2.16%</span></div>
-<div class="title-item">「没有之一！吃过坠好吃😋的玉米」<span class="title-meta">401万曝光 · 封面CTR 4.6%</span></div>
-<div class="title-item">「19一箱19一箱19一箱的报恩西瓜！！脆甜爽口～」<span class="title-meta">399万曝光 · 封面CTR 4.55%</span></div>
-<div class="title-item">「丢掉牙签🖐️无丝芒果戴着牙套也能kuku吃」<span class="title-meta">382万曝光 · 封面CTR 7.85%</span></div>
-<div class="title-item">「板栗红薯🍠减脂代餐的宝藏粗粮啊」<span class="title-meta">360万曝光 · 封面CTR 3.88%</span></div>
-<div class="title-item">「谁来救救它一个被时代抛弃的水果......」<span class="title-meta">318万曝光 · 封面CTR 5.41%</span></div>
-
+  <!-- 本周标题公式 -->
+  <div class="section">
+    <div class="section-title">
+      ✏️ 本周标题公式
+      <span class="sub">高点击率标题结构归纳</span>
+    </div>
+    <div class="formula-grid">
+      <div class="formula-card">
+        <div class="formula-row">
+          <div class="formula-num">1</div>
+          <div class="formula-body">
+            <div class="formula-name">亲情主理人 + 产地紧迫 + 低价</div>
+            <div class="formula-tags">
+              <span class="formula-tag">我爸/我妈</span>
+              <span class="formula-tag">便宜卖</span>
+              <span class="formula-tag orange">总比烂了强</span>
+              <span class="formula-tag orange">温度30+</span>
+            </div>
+            <div class="formula-quote">「产地温度30+！我爸说便宜卖！总比坏了强😭」</div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-row">
+          <div class="formula-num">2</div>
+          <div class="formula-body">
+            <div class="formula-name">购买力认知颠覆</div>
+            <div class="formula-tags">
+              <span class="formula-tag">年轻人</span>
+              <span class="formula-tag orange">X块钱</span>
+              <span class="formula-tag">购买力毫无概念</span>
+            </div>
+            <div class="formula-quote">「现在年轻人对8块钱的购买力毫无概念」</div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-row">
+          <div class="formula-num">3</div>
+          <div class="formula-body">
+            <div class="formula-name">价格三连 + 情绪强调</div>
+            <div class="formula-tags">
+              <span class="formula-tag orange">X元一箱！×3</span>
+              <span class="formula-tag">重要的事情说三次</span>
+            </div>
+            <div class="formula-quote">「19一箱！19一箱！19一箱！重要的事情说三次」</div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-row">
+          <div class="formula-num">4</div>
+          <div class="formula-body">
+            <div class="formula-name">功效/场景 + 人群定向</div>
+            <div class="formula-tags">
+              <span class="formula-tag">减脂</span>
+              <span class="formula-tag">低卡</span>
+              <span class="formula-tag orange">控体</span>
+              <span class="formula-tag">代餐天花板</span>
+            </div>
+            <div class="formula-quote">「板栗红薯🍠减脂代餐的宝藏粗粮啊」</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- 二级类目分布 -->
-  <div class="section-label"><span class="icon">📦</span>二级类目表现<span class="tag">按曝光量排序</span></div>
-  <div class="cat-grid">
-    <div class="cat-item">📦 新鲜水果：均值CTR 7.8%，共131篇</div>
-<div class="cat-item">📦 新鲜蔬菜/蔬菜制品：均值CTR 5.2%，共46篇</div>
-<div class="cat-item">📦 生肉/肉制品：均值CTR 9.5%，共12篇</div>
-<div class="cat-item">📦 海鲜/水产品/制品：均值CTR 6.7%，共7篇</div>
-<div class="cat-item">📦 蛋/蛋制品：均值CTR 16.6%，共2篇</div>
-<div class="cat-item">📦 熟食/卤味/即食菜：均值CTR 9.1%，共1篇</div>
+  <!-- 本周热点话题节点 -->
+  <div class="section">
+    <div class="section-title">
+      📌 本周热点话题节点
+      <span class="sub">2026 W15</span>
+    </div>
+    <div class="hotspot-grid">
+      <div class="hotspot-card">
+        <h4>🔥 最热关键词</h4>
+        <div class="kw-list">
+          <span class="kw red">购买力</span>
+          <span class="kw red">一箱</span>
+          <span class="kw red">凤梨</span>
+          <span class="kw orange">西瓜</span>
+          <span class="kw orange">芒果</span>
+          <span class="kw orange">玉米</span>
+          <span class="kw gray">枇杷</span>
+          <span class="kw gray">蔬菜</span>
+        </div>
+      </div>
+      <div class="hotspot-card">
+        <h4>📈 上升趋势词</h4>
+        <div class="kw-list">
+          <span class="kw green">西瓜上市</span>
+          <span class="kw green">芒果巅峰期</span>
+          <span class="kw blue">樱桃</span>
+          <span class="kw blue">牛油果</span>
+          <span class="kw green">减脂代餐</span>
+          <span class="kw blue">控体粗粮</span>
+        </div>
+      </div>
+      <div class="hotspot-card">
+        <h4>📅 本周节点</h4>
+        <div class="kw-list">
+          <span class="kw orange">五一备货</span>
+          <span class="kw red">夏季预热</span>
+          <span class="kw green">春夏交替</span>
+          <span class="kw blue">应季水果旺季</span>
+          <span class="kw gray">高温减损促销</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- 品类风向 -->
+  <div class="section">
+    <div class="section-title">
+      📦 品类风向
+      <span class="sub">本周数据</span>
+    </div>
+    <div class="category-grid">
+      <div class="category-card">
+        <h4><span class="cat-badge fruit">🍑 新鲜水果</span> 131篇 · 均CTR 7.8%</h4>
+        <p>
+          <span class="highlight">凤梨/菠萝</span>本周流量担当，「产地高温便宜卖」+「不好吃我生儿子」双模板持续霸榜。<br>
+          <span class="highlight">西瓜</span>开始放量，「报恩西瓜」情绪化标题商卡CTR高达 38%，提前卡位夏季心智。<br>
+          平：<span class="highlight">车厘子</span>季节退场，「成功替代车厘子」的情绪承接笔记开始接力出现。
+        </p>
+      </div>
+      <div class="category-card">
+        <h4><span class="cat-badge veg">🌽 新鲜蔬菜</span> 46篇 · 均CTR 5.2%</h4>
+        <p>
+          <span class="highlight">玉米/甜椒</span>为核心品，「购买力毫无概念」句式获全类目最高单篇曝光（847万次）。<br>
+          <span class="highlight">减脂蔬菜</span>（板栗薯/红薯/小甜椒）持续走量，「控体代餐」场景转化率达 18%+，高于水果品类。<br>
+          竹笋/小竹笋等<span class="highlight">时令蔬菜</span>「甩地址不要油费」打法本周新兴。
+        </p>
+      </div>
+      <div class="category-card">
+        <h4><span class="cat-badge meat">🥩 生肉/熟食</span> 12篇 · 均CTR 9.5%</h4>
+        <p>
+          <span class="highlight">均CTR最高子类（9.5%）</span>，封面内容以产品特写+克重/份数为主。<br>
+          「100元够吃一个月」金额锚点法在肉类最有效，<span class="highlight">板腱/牛肉丸</span>跑量最稳。<br>
+          <span class="highlight">广式脆皮鸡/土鸡</span>借助「小红书跟风」信任背书，点击率 8%+。
+        </p>
+      </div>
+      <div class="category-card">
+        <h4><span class="cat-badge seafood">🦐 海鲜/水产</span> 7篇 · 均CTR 6.7%</h4>
+        <p>
+          <span class="highlight">商卡CTR最高达 39.8%</span>（虾仁类），点击意图强但曝光体量相对小。<br>
+          「感谢315让我家虾仁卖了14万单」<span class="highlight">事件借势</span>型内容本周出圈，信任感极强。<br>
+          <span class="highlight">低卡/轻食墨鱼丸</span>健康化包装，成功破圈减脂人群，转化率 15%+。
+        </p>
+      </div>
+    </div>
   </div>
 
 </div>
 
-<div class="footer">
-  小红书电商 · 水产肉类/新鲜蔬果/熟食行业 · 数据来源：小红书 BI 平台 · 每周更新<br>
-  生成时间：2026-04-10 15:19
-</div>
+<footer>
+  小红书电商 · 生鲜行业风向看板 · 数据范围：近7天动销商家 · 2026-04-10 生成
+</footer>
 
 </body>
 </html>

@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>生鲜行业风向看板 · 小红书电商</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin:0; padding:0; box-sizing:border-box; }
     :root {
-      --red: #ff2442; --orange: #ff6b35;
+      --red: #e63950; --orange: #ff6b35;
       --warm: #fff8f4; --card-bg: #ffffff;
       --text: #1a1a1a; --text-sub: #888;
       --border: #f0ebe4;
@@ -15,69 +15,66 @@
     body { font-family: -apple-system, "PingFang SC", sans-serif; background: var(--warm); color: var(--text); }
 
     .header {
-      background: linear-gradient(135deg, #ff2442 0%, #ff6b35 100%);
+      background: linear-gradient(135deg, #1a7a3c 0%, #2da54e 60%, #6ecf89 100%);
       padding: 28px 40px;
       display: flex; align-items: center; justify-content: space-between;
     }
     .header-title { font-size: 22px; font-weight: 800; color: #fff; }
-    .header-sub { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 3px; }
+    .header-sub { font-size: 13px; color: rgba(255,255,255,0.80); margin-top: 4px; }
     .header-week { font-size: 28px; font-weight: 800; color: #fff; }
-    .header-date { font-size: 12px; color: rgba(255,255,255,0.7); }
+    .header-date { font-size: 12px; color: rgba(255,255,255,0.75); }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 36px 28px 80px; }
+    .container { max-width: 1160px; margin: 0 auto; padding: 36px 28px 80px; }
 
     .section-label {
       display: flex; align-items: center; gap: 10px;
       font-size: 16px; font-weight: 800; color: var(--text);
       margin: 36px 0 16px;
     }
-    .section-label .icon { font-size: 20px; }
     .tag {
       font-size: 11px; font-weight: 600; padding: 3px 10px;
-      background: #fff0f2; color: var(--red); border-radius: 20px;
+      background: #e8f7ed; color: #1a7a3c; border-radius: 20px;
     }
 
     /* 基准卡片 */
-    .bench-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .bench-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .bench-card {
       background: var(--card-bg); border-radius: 16px;
-      border: 1.5px solid var(--border); padding: 20px;
+      border: 1.5px solid var(--border); padding: 18px;
     }
     .bench-card.top { border-color: #ffd700; }
-    .bench-card.low { border-color: #e0e0e0; }
+    .bench-card.highlight { border-color: #2da54e; }
     .bench-tier { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
     .bench-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
     .bench-label { font-size: 12px; color: var(--text-sub); }
     .bench-val { font-size: 22px; font-weight: 800; color: var(--red); }
+    .bench-val.green { color: #1a7a3c; }
     .bench-unit { font-size: 12px; font-weight: 400; color: var(--text-sub); margin-left: 2px; }
+
+    .note-box { background: #f0faf4; border-radius: 12px; border: 1px solid #b8e8c8; padding: 12px 16px; font-size: 12px; color: #1a7a3c; margin-bottom: 20px; }
 
     /* 内容风向 */
     .directions-box { background: var(--card-bg); border-radius: 16px; border: 1.5px solid var(--border); padding: 20px; }
     .trend-item { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.6; }
     .trend-item:last-child { border-bottom: none; }
 
-    /* 封面候选表格 */
+    /* 表格 */
     .table-wrap { background: var(--card-bg); border-radius: 16px; border: 1.5px solid var(--border); overflow: hidden; }
     table { width: 100%; border-collapse: collapse; }
-    th { background: #fff8f4; padding: 10px 14px; font-size: 12px; font-weight: 700; text-align: left; color: #666; }
+    th { background: #f5fdf8; padding: 10px 14px; font-size: 12px; font-weight: 700; text-align: left; color: #666; }
     td { padding: 10px 14px; font-size: 13px; border-top: 1px solid var(--border); }
     td a { color: var(--red); text-decoration: none; }
     td a:hover { text-decoration: underline; }
 
     /* 标题列表 */
     .titles-box { background: var(--card-bg); border-radius: 16px; border: 1.5px solid var(--border); padding: 20px; }
-    .title-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .title-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.7; }
     .title-item:last-child { border-bottom: none; }
     .title-meta { font-size: 11px; color: var(--text-sub); margin-left: 8px; }
 
-    /* 二级类目 */
-    .cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .cat-item { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); padding: 12px 16px; font-size: 13px; }
-
     .footer {
       text-align: center; color: #aaa; font-size: 12px;
-      padding: 24px; border-top: 1px solid var(--border);
-      margin-top: 60px;
+      padding: 24px; border-top: 1px solid var(--border); margin-top: 60px;
     }
   </style>
 </head>
@@ -85,160 +82,333 @@
 
 <header class="header">
   <div>
-    <div class="header-title">生鲜 行业风向看板</div>
-    <div class="header-sub">小红书电商 · 商品笔记内容指引 · 共188篇有效笔记</div>
+    <div class="header-title">🥦 生鲜行业风向看板</div>
+    <div class="header-sub">小红书电商 · AM负责商家商品笔记 · 共 1901 篇有效笔记 · 280 个商家</div>
   </div>
   <div style="text-align:right">
-    <div class="header-week">W16</div>
-    <div class="header-date">20260406 — 20260413</div>
+    <div class="header-week">W15</div>
+    <div class="header-date">2026.04.07 – 2026.04.13（W15）</div>
   </div>
 </header>
 
 <div class="container">
 
+  <div class="note-box">
+    ℹ️ 口径说明：封面CTR = 笔记点击UV / 笔记曝光UV；商卡CTR = 商卡点击UV / 商卡曝光UV（均为去重UV口径，非PV）
+  </div>
+
   <!-- 行业基准 -->
-  <div class="section-label"><span class="icon">📊</span>行业基准数据<span class="tag">近7天 · 动销商家</span></div>
+  <div class="section-label"><span>📊</span>行业基准数据<span class="tag">近7天 · AM负责商家</span></div>
   <div class="bench-grid">
     <div class="bench-card top">
-      <div class="bench-tier">🏆 TOP商家</div>
+      <div class="bench-tier">🏆 TOP商家（P90）</div>
       <div class="bench-row">
-        <span class="bench-label">商笔 CTR</span>
-        <span class="bench-val">104.3<span class="bench-unit">%</span></span>
+        <span class="bench-label">封面CTR</span>
+        <span class="bench-val">13.8<span class="bench-unit">%</span></span>
       </div>
       <div class="bench-row">
-        <span class="bench-label">商品转化率</span>
-        <span class="bench-val">18.2<span class="bench-unit">%</span></span>
+        <span class="bench-label">商卡CTR</span>
+        <span class="bench-val">43.3<span class="bench-unit">%</span></span>
+      </div>
+      <div class="bench-row">
+        <span class="bench-label">购买UV转化率</span>
+        <span class="bench-val">18.1<span class="bench-unit">%</span></span>
       </div>
     </div>
-    <div class="bench-card avg">
+    <div class="bench-card">
       <div class="bench-tier">📊 行业均值</div>
       <div class="bench-row">
-        <span class="bench-label">商笔 CTR</span>
-        <span class="bench-val">48.0<span class="bench-unit">%</span></span>
+        <span class="bench-label">封面CTR</span>
+        <span class="bench-val">7.8<span class="bench-unit">%</span></span>
       </div>
       <div class="bench-row">
-        <span class="bench-label">商品转化率</span>
-        <span class="bench-val">11.4<span class="bench-unit">%</span></span>
+        <span class="bench-label">商卡CTR</span>
+        <span class="bench-val">21.9<span class="bench-unit">%</span></span>
+      </div>
+      <div class="bench-row">
+        <span class="bench-label">购买UV转化率</span>
+        <span class="bench-val">9.8<span class="bench-unit">%</span></span>
       </div>
     </div>
-    <div class="bench-card low">
-      <div class="bench-tier">⚠️ 待提升</div>
+    <div class="bench-card">
+      <div class="bench-tier">⚠️ 待提升（P30）</div>
       <div class="bench-row">
-        <span class="bench-label">商笔 CTR</span>
-        <span class="bench-val">0.2<span class="bench-unit">%</span></span>
+        <span class="bench-label">封面CTR</span>
+        <span class="bench-val">4.9<span class="bench-unit">%</span></span>
       </div>
       <div class="bench-row">
-        <span class="bench-label">商品转化率</span>
-        <span class="bench-val">6.5<span class="bench-unit">%</span></span>
+        <span class="bench-label">商卡CTR</span>
+        <span class="bench-val">10.7<span class="bench-unit">%</span></span>
+      </div>
+      <div class="bench-row">
+        <span class="bench-label">购买UV转化率</span>
+        <span class="bench-val">5.6<span class="bench-unit">%</span></span>
+      </div>
+    </div>
+    <div class="bench-card highlight">
+      <div class="bench-tier">📝 商家发布活跃度</div>
+      <div class="bench-row" style="margin-top:8px">
+        <span class="bench-label">日均发布商笔数</span>
+        <span class="bench-val green">8.6<span class="bench-unit">篇/天</span></span>
+      </div>
+      <div style="font-size:11px;color:#666;margin-top:8px;line-height:1.5">
+        AM负责商家在近7天内<br>平均每天发布的商品笔记数
       </div>
     </div>
   </div>
 
-  <!-- 本周内容风向 -->
-  <div class="section-label"><span class="icon">🔥</span>本周内容风向<span class="tag">基于真实数据分析</span></div>
+  <!-- 内容风向 -->
+  <div class="section-label"><span>🔥</span>本周内容风向<span class="tag">基于1901篇有效笔记分析</span></div>
   <div class="directions-box">
-    <div class="trend-item">📌 情绪共鸣型（感动/破防/主理人故事），占比约2%</div>
-<div class="trend-item">📌 场景精准型（备考/宿舍/减脂等垂直场景），占比约3%</div>
-<div class="trend-item">📌 结果前置型（X天/X斤/断妆等效果描述），占比约7%</div>
-<div class="trend-item">📌 价格冲击型（超低价/包邮/尝鲜），占比约5%</div>
+    <div class="trend-item">🌾 农人情感型（爸/妈/爷/奶等人设故事），占比约10%</div>
+<div class="trend-item">💰 价格冲击型（低价/包邮/报恩），占比约9%</div>
+<div class="trend-item">💪 功效结果型（掉秤/补钾/减脂），占比约8%</div>
+<div class="trend-item">🤙 极端承诺型（不好吃/不打药/一胎八子），占比约1%</div>
 
   </div>
 
-  <!-- 高CTR封面候选 -->
-  <div class="section-label"><span class="icon">🖼️</span>高双高封面候选<span class="tag">封面CTR≥8% · 商卡CTR≥15%</span></div>
+  <!-- 双高笔记 -->
+  <div class="section-label"><span>🖼️</span>双高笔记候选<span class="tag">封面CTR≥5% · 商卡CTR≥8%（UV口径）</span></div>
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
           <th>#</th>
-          <th>笔记标题</th>
-          <th>曝光量</th>
+          <th>笔记标题 / 商家</th>
+          <th>曝光UV</th>
           <th>封面CTR</th>
           <th>商卡CTR</th>
+          <th>购买UV转化率</th>
+          <th>商家日均发布</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69cb3047000000001a02e854" target="_blank">现在年轻人对8块钱的购买力毫无概念</a></td>
-          <td>29万</td>
-          <td>103.4%</td>
-          <td>20.9%</td>
-        </tr>
+      <td>1</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69d43765000000002301c6f5" target="_blank">一大早看到，说实话，五味杂陈…😭</a><br><small style="color:#aaa">果小乐的店</small></td>
+      <td>3,264,121</td>
+      <td style="color:#e63950;font-weight:700">16.2%</td>
+      <td style="color:#e63950;font-weight:700">8.0%</td>
+      <td>10.8%</td>
+      <td style="color:#666">75.8 篇/天</td>
+    </tr>
 <tr>
-          <td>2</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69d38735000000001a032cd0" target="_blank">建议四月多吃，太润了！</a></td>
-          <td>17万</td>
-          <td>103.2%</td>
-          <td>16.7%</td>
-        </tr>
+      <td>2</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69d378f6000000001a021752" target="_blank">海南文旅😫无丝纸核芒11筷6个都没人买啊</a><br><small style="color:#aaa">野里鲜果的店</small></td>
+      <td>2,393,484</td>
+      <td style="color:#e63950;font-weight:700">6.4%</td>
+      <td style="color:#e63950;font-weight:700">21.4%</td>
+      <td>13.9%</td>
+      <td style="color:#666">29.8 篇/天</td>
+    </tr>
 <tr>
-          <td>3</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69cde9850000000023017b20" target="_blank">19一箱19一箱19一箱的报恩西瓜！！脆甜爽口～</a></td>
-          <td>15万</td>
-          <td>105.3%</td>
-          <td>37.2%</td>
-        </tr>
+      <td>3</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69d6dd71000000001a02cb31" target="_blank">一大早看到，说实话，五味杂陈…😭</a><br><small style="color:#aaa">果小乐的店</small></td>
+      <td>1,938,108</td>
+      <td style="color:#e63950;font-weight:700">15.3%</td>
+      <td style="color:#e63950;font-weight:700">8.9%</td>
+      <td>11.8%</td>
+      <td style="color:#666">75.8 篇/天</td>
+    </tr>
 <tr>
-          <td>4</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69bbe98e00000000230100c2" target="_blank">求你们吃这家凤梨❗️不好吃我一胎八个儿子😭</a></td>
-          <td>15万</td>
-          <td>103.3%</td>
-          <td>25.9%</td>
-        </tr>
+      <td>4</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69cb1d81000000002302782b" target="_blank">半山的芒果🥭我爸让我想办法，那就9.9💰30个</a><br><small style="color:#aaa">果小乐的店</small></td>
+      <td>1,478,630</td>
+      <td style="color:#e63950;font-weight:700">9.1%</td>
+      <td style="color:#e63950;font-weight:700">18.0%</td>
+      <td>8.8%</td>
+      <td style="color:#666">75.8 篇/天</td>
+    </tr>
 <tr>
-          <td>5</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69cf904f000000001a022349" target="_blank">产地温度30➕ 我爸说便宜卖总比烂在地里强😭</a></td>
-          <td>11万</td>
-          <td>103.0%</td>
-          <td>16.7%</td>
-        </tr>
+      <td>5</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69c80ce8000000001a028062" target="_blank">丢掉牙签🖐️无丝芒果戴着牙套也能kuku吃</a><br><small style="color:#aaa">野里鲜果的店</small></td>
+      <td>1,470,155</td>
+      <td style="color:#e63950;font-weight:700">7.8%</td>
+      <td style="color:#e63950;font-weight:700">15.1%</td>
+      <td>10.8%</td>
+      <td style="color:#666">29.8 篇/天</td>
+    </tr>
 <tr>
-          <td>6</td>
-          <td><a href="https://www.xiaohongshu.com/explore/69b6a5ec000000002102e267" target="_blank">没有之一！吃过坠好吃😋的玉米</a></td>
-          <td>10万</td>
-          <td>103.0%</td>
-          <td>21.2%</td>
-        </tr>
+      <td>6</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69c7d8da00000000210108a6" target="_blank">以为100块没多少，结果够我吃半个月了</a><br><small style="color:#aaa">海边原著的店</small></td>
+      <td>1,445,633</td>
+      <td style="color:#e63950;font-weight:700">6.3%</td>
+      <td style="color:#e63950;font-weight:700">32.4%</td>
+      <td>4.6%</td>
+      <td style="color:#666">51.3 篇/天</td>
+    </tr>
+<tr>
+      <td>7</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69cf120a000000001f003464" target="_blank">不要低估十块钱的购买力……</a><br><small style="color:#aaa">果小乐的店</small></td>
+      <td>1,388,643</td>
+      <td style="color:#e63950;font-weight:700">6.2%</td>
+      <td style="color:#e63950;font-weight:700">16.6%</td>
+      <td>8.5%</td>
+      <td style="color:#666">75.8 篇/天</td>
+    </tr>
+<tr>
+      <td>8</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69d4e0df000000001d01cfd1" target="_blank">可不嘛，每一盒都是厚切才发货的！</a><br><small style="color:#aaa">CUBO Fresh</small></td>
+      <td>940,007</td>
+      <td style="color:#e63950;font-weight:700">9.2%</td>
+      <td style="color:#e63950;font-weight:700">28.9%</td>
+      <td>3.1%</td>
+      <td style="color:#666">19.8 篇/天</td>
+    </tr>
+<tr>
+      <td>9</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69cf5efc0000000021039423" target="_blank">山上都是芒果🥭我爸让我想办法那就9.9💰30</a><br><small style="color:#aaa">果小乐的店</small></td>
+      <td>845,746</td>
+      <td style="color:#e63950;font-weight:700">11.5%</td>
+      <td style="color:#e63950;font-weight:700">14.8%</td>
+      <td>9.6%</td>
+      <td style="color:#666">75.8 篇/天</td>
+    </tr>
+<tr>
+      <td>10</td>
+      <td><a href="https://www.xiaohongshu.com/discovery/item/69c27c50000000001f001451" target="_blank">和大家协商后，出不加牛油牛肉丸一粒23大卡</a><br><small style="color:#aaa">牛肉丸研究所🐮的店</small></td>
+      <td>822,145</td>
+      <td style="color:#e63950;font-weight:700">5.5%</td>
+      <td style="color:#e63950;font-weight:700">24.6%</td>
+      <td>9.6%</td>
+      <td style="color:#666">67.0 篇/天</td>
+    </tr>
 
       </tbody>
     </table>
   </div>
 
-  <!-- 本周高曝光标题 -->
-  <div class="section-label"><span class="icon">📝</span>本周高曝光标题参考<span class="tag">TOP 10</span></div>
+  <!-- 高曝光标题 -->
+  <div class="section-label"><span>📝</span>本周高曝光标题参考<span class="tag">TOP 15 · 含完整指标</span></div>
   <div class="titles-box">
-    <div class="title-item">「挑战一个星期黄瓜+鸡蛋！！」<span class="title-meta">88万曝光 · 封面CTR 0.1%</span></div>
-<div class="title-item">「被十四块的购买力惊呆了~整整三个金钻凤梨」<span class="title-meta">75万曝光 · 封面CTR 0.7%</span></div>
-<div class="title-item">「频繁吃木瓜牛奶的滞后性…………笑嘻嘻」<span class="title-meta">59万曝光 · 封面CTR 0.0%</span></div>
-<div class="title-item">「被资本操控最严重的东西！！！」<span class="title-meta">55万曝光 · 封面CTR 16.3%</span></div>
-<div class="title-item">「这个紫薯可以冲🍠🍠🍠」<span class="title-meta">54万曝光 · 封面CTR 0.1%</span></div>
-<div class="title-item">「小甜椒补钾真的巨猛……是椰子的三倍～🤤」<span class="title-meta">54万曝光 · 封面CTR 0.1%</span></div>
-<div class="title-item">「谢谢大家🙏……全村都活了🥹」<span class="title-meta">50万曝光 · 封面CTR 0.0%</span></div>
-<div class="title-item">「请全国孕妇放心吃，我家不打药的🍅」<span class="title-meta">49万曝光 · 封面CTR 0.0%</span></div>
-<div class="title-item">「一个被资本家操控坠严重的水果……」<span class="title-meta">48万曝光 · 封面CTR 74.2%</span></div>
-<div class="title-item">「沉浸式吃彩椒，补钾比椰子还猛！9r一箱爽哭🥹」<span class="title-meta">48万曝光 · 封面CTR 0.0%</span></div>
-
-  </div>
-
-  <!-- 二级类目分布 -->
-  <div class="section-label"><span class="icon">📦</span>二级类目表现<span class="tag">按曝光量排序</span></div>
-  <div class="cat-grid">
-    <div class="cat-item">📦 新鲜水果：均值CTR 49.4%，共116篇</div>
-<div class="cat-item">📦 新鲜蔬菜/蔬菜制品：均值CTR 21.3%，共59篇</div>
-<div class="cat-item">📦 蛋/蛋制品：均值CTR 1.7%，共5篇</div>
-<div class="cat-item">📦 海鲜/水产品/制品：均值CTR 30.6%，共4篇</div>
-<div class="cat-item">📦 腌制蔬菜/泡菜/酱菜/脱水蔬菜：均值CTR 13.0%，共1篇</div>
-<div class="cat-item">📦 生肉/肉制品：均值CTR 104.2%，共3篇</div>
+    <div class="title-item">
+      <span style="font-weight:600;margin-right:6px">1.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69bbe98e00000000230100c2" target="_blank" style="color:#1a1a1a;text-decoration:none">求你们吃这家凤梨❗️不好吃我一胎八个儿子😭</a>
+      <span class="title-meta">7,754,805UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 3.9%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 23.9%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化14.3% · 日均27.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">柚子脑🍊的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">2.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69cbcc3e000000001d01c48c" target="_blank" style="color:#1a1a1a;text-decoration:none">成功替代了车厘子在我心里的位置……</a>
+      <span class="title-meta">4,013,548UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 3.2%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 13.7%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化17.9% · 日均25.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">我的卖果记的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">3.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69d06f470000000023026312" target="_blank" style="color:#1a1a1a;text-decoration:none">感谢大家的回购，小樱桃还有半个月就下架了</a>
+      <span class="title-meta">3,707,996UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 4.7%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 20.7%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化7.3% · 日均50.3篇</span>
+      <br><small style="color:#bbb;margin-left:22px">果农人阿强（海南凤梨季）</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">4.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69d43765000000002301c6f5" target="_blank" style="color:#1a1a1a;text-decoration:none">一大早看到，说实话，五味杂陈…😭</a>
+      <span class="title-meta">3,264,121UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 16.2%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 8.0%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化10.8% · 日均75.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">果小乐的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">5.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69d378f6000000001a021752" target="_blank" style="color:#1a1a1a;text-decoration:none">海南文旅😫无丝纸核芒11筷6个都没人买啊</a>
+      <span class="title-meta">2,393,484UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 6.4%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 21.4%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化13.9% · 日均29.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">野里鲜果的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">6.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69c675fc000000001d01b9f5" target="_blank" style="color:#1a1a1a;text-decoration:none">求你们吃这家凤梨❗️不好吃我一胎生八儿子😭</a>
+      <span class="title-meta">2,269,402UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 3.7%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 26.8%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化13.9% · 日均27.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">柚子脑🍊的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">7.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69d6dd71000000001a02cb31" target="_blank" style="color:#1a1a1a;text-decoration:none">一大早看到，说实话，五味杂陈…😭</a>
+      <span class="title-meta">1,938,108UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 15.3%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 8.9%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化11.8% · 日均75.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">果小乐的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">8.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69cb16540000000021005f5c" target="_blank" style="color:#1a1a1a;text-decoration:none">柠檬🍋不知火——稀有小众品 上架啦‼️</a>
+      <span class="title-meta">1,728,678UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 3.4%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 17.3%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化13.6% · 日均25.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">我的卖果记的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">9.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69cb1d81000000002302782b" target="_blank" style="color:#1a1a1a;text-decoration:none">半山的芒果🥭我爸让我想办法，那就9.9💰30个</a>
+      <span class="title-meta">1,478,630UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 9.1%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 18.0%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化8.8% · 日均75.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">果小乐的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">10.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69c80ce8000000001a028062" target="_blank" style="color:#1a1a1a;text-decoration:none">丢掉牙签🖐️无丝芒果戴着牙套也能kuku吃</a>
+      <span class="title-meta">1,470,155UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 7.8%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 15.1%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化10.8% · 日均29.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">野里鲜果的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">11.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69c7d8da00000000210108a6" target="_blank" style="color:#1a1a1a;text-decoration:none">以为100块没多少，结果够我吃半个月了</a>
+      <span class="title-meta">1,445,633UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 6.3%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 32.4%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化4.6% · 日均51.3篇</span>
+      <br><small style="color:#bbb;margin-left:22px">海边原著的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">12.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69cf120a000000001f003464" target="_blank" style="color:#1a1a1a;text-decoration:none">不要低估十块钱的购买力……</a>
+      <span class="title-meta">1,388,643UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 6.2%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 16.6%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化8.5% · 日均75.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">果小乐的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">13.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69d36978000000001a02dce7" target="_blank" style="color:#1a1a1a;text-decoration:none">谁来救救这个被时代抛弃的水果……</a>
+      <span class="title-meta">1,361,555UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 17.9%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 5.5%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化9.2% · 日均75.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">果小乐的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">14.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69ccf7e6000000002200f8e7" target="_blank" style="color:#1a1a1a;text-decoration:none">全家管理期，低卡花心王从没断过货</a>
+      <span class="title-meta">1,319,885UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 3.1%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 27.0%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化11.6% · 日均27.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">小妹果园的店</small>
+    </div>
+<div class="title-item">
+      <span style="font-weight:600;margin-right:6px">15.</span>
+      <a href="https://www.xiaohongshu.com/discovery/item/69d858a00000000022002241" target="_blank" style="color:#1a1a1a;text-decoration:none">谁来救救这个被时代抛弃的水果……</a>
+      <span class="title-meta">1,047,078UV</span>
+      <span style="background:#fff0f2;color:#e63950;padding:1px 7px;border-radius:10px;font-size:11px">封 19.5%</span> <span style="background:#fff8e8;color:#c97000;padding:1px 7px;border-radius:10px;font-size:11px">卡 6.3%</span>
+      <span style="color:#999;font-size:11px;margin-left:4px">转化8.0% · 日均75.8篇</span>
+      <br><small style="color:#bbb;margin-left:22px">果小乐的店</small>
+    </div>
 
   </div>
 
 </div>
 
 <div class="footer">
-  小红书电商 · 生鲜行业 · 数据来源：小红书 BI 平台 · 每周更新<br>
-  生成时间：2026-04-13 14:33
+  小红书电商 · 生鲜行业 · 数据来源：RedBI analysisId=46821090（AM负责商家口径）<br>
+  封面CTR/商卡CTR均为UV口径 · 生成时间：2026-04-13 17:58
 </div>
-
 </body>
 </html>

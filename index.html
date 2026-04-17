@@ -163,27 +163,31 @@
     .diag-link a { color: var(--green); font-weight: 700; text-decoration: none; cursor: pointer; }
     .diag-link a:hover { text-decoration: underline; }
 
-    /* ── 实用工具 ── */
-    .tool-card { background: var(--card-bg); border-radius: 16px; border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 24px; }
-    .tool-header { padding: 18px 20px; border-bottom: 1px solid var(--border); }
-    .tool-header h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .tool-header p { font-size: 12px; color: var(--text-sub); }
-    .tool-body { padding: 20px; }
-    .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-sub); margin-bottom: 6px; }
-    .form-group label .required { color: var(--green); }
-    .form-input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; font-family: inherit; }
-    .form-input:focus { border-color: var(--green); }
+    /* ── 实用工具 (对齐参考看板) ── */
+    .planner-card { background: var(--card-bg); border-radius: 16px; border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 0; }
+    .planner-intro { background: linear-gradient(135deg, #f0fdf4, #ecfdf5); padding: 16px 24px; font-size: 13px; color: #666; border-bottom: 1px solid var(--border); }
+    .planner-form { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .form-row-tool { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 13px; font-weight: 600; color: #444; }
+    .required { color: var(--green); }
+    .form-input { padding: 10px 14px; border: 1.5px solid #e8e0d8; border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; background: #fafaf8; width: 100%; }
+    .form-input:focus { border-color: var(--green); background: #fff; }
     .form-input::placeholder { color: #ccc; }
-    .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .tool-actions { display: flex; gap: 10px; padding: 0 20px 20px; flex-wrap: wrap; }
-    .btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
-    .btn-primary { background: var(--green); color: #fff; }
-    .btn-primary:hover { background: #059669; }
-    .btn-secondary { background: #f0fdf4; color: var(--green); border: 1.5px solid var(--green); }
-    .btn-copy { background: #fffbeb; color: #f59e0b; border: 1.5px solid #fde68a; }
-    .tool-preview { background: #f8f9fa; border-radius: 10px; padding: 16px; margin: 0 20px 20px; font-size: 13px; line-height: 1.6; color: #555; display: none; white-space: pre-wrap; }
-    .tool-preview.show { display: block; }
+    .cat-select-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cat-radio { cursor: pointer; }
+    .cat-radio input { display: none; }
+    .cat-radio span { display: inline-block; padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; background: #f5f0eb; color: #666; border: 1.5px solid transparent; transition: all 0.15s; cursor: pointer; }
+    .cat-radio input:checked + span { background: #f0fdf4; color: var(--green); border-color: #a7f3d0; }
+    .planner-actions { padding: 0 24px 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-gen { padding: 12px 24px; background: linear-gradient(135deg, var(--green), #059669); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity 0.15s; }
+    .btn-gen:hover { opacity: 0.88; }
+    .btn-gen.btn-doubao { background: linear-gradient(135deg, #3b82f6, #06b6d4); }
+    .btn-copy { padding: 12px 20px; background: #f5f0eb; color: #555; border: 1.5px solid #e8e0d8; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .btn-copy:hover { background: #eee8e0; }
+    .prompt-preview { margin: 0 24px 24px; background: #fafaf8; border: 1.5px solid #e8e0d8; border-radius: 12px; overflow: hidden; }
+    .prompt-label { padding: 8px 14px; font-size: 11px; font-weight: 700; color: #999; background: #f0ebe4; text-transform: uppercase; letter-spacing: 0.5px; }
+    .prompt-text { padding: 14px; font-size: 13px; color: #555; line-height: 1.7; white-space: pre-wrap; max-height: 280px; overflow-y: auto; }
+    .copy-success { background: #10b981 !important; color: #fff !important; border-color: #10b981 !important; }
 
     /* ── Responsive ── */
     @media (max-width: 800px) {
@@ -199,6 +203,13 @@
     }
     @media (max-width: 480px) {
       .container { padding: 16px 14px 60px; }
+      /* 工具区响应式 */
+      .planner-card { border-radius: 12px; }
+      .planner-form { padding: 16px; }
+      .planner-actions { padding: 0 16px 16px; flex-direction: column; }
+      .btn-gen, .btn-doubao, .btn-copy { width: 100%; text-align: center; }
+      .form-input { font-size: 16px; }
+      .planner-intro [style*="min-width"] { min-width: 60px !important; font-size: 10px; }
       .header { padding: 14px 16px; }
       .header-title { font-size: 17px; }
       .header-week { font-size: 22px; }
@@ -520,102 +531,149 @@
 <!-- ========== Tab 3: 实用工具 ========== -->
   <div id="panel-tools" class="tab-panel hidden">
 
-    <!-- 工具① 笔记策划 -->
-    <div class="tool-card" id="note-plan-section">
-      <div class="tool-header">
-        <h3>✨ 笔记策划工具</h3>
-        <p>输入产品 · 一键生成方案。基于本周行业风向，生成可直接发给 AI 的策划提示词。</p>
-      </div>
-      <div class="tool-body">
-        <div class="form-group">
-          <label>产品名称 <span class="required">*</span></label>
-          <input class="form-input" id="tool1Product" placeholder="例：手工黑芝麻丸、鲜萃冷泡茶、贵州辣子鸡调料" />
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>核心卖点（选填）</label>
-            <input class="form-input" id="tool1Selling" placeholder="例：古法九蒸九晒、0添加、外婆配方、产地直发" />
-          </div>
-          <div class="form-group">
-            <label>目标人群（选填）</label>
-            <input class="form-input" id="tool1Audience" placeholder="例：备孕女性、减脂人群、宝妈、下厨好者" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>品类</label>
-          <select class="form-input" id="tool1Category">
-            <option value="水果">🍎 新鲜水果</option>
-            <option value="蔬菜">🥬 新鲜蔬菜</option>
-            <option value="海鲜">🦐 海鲜/水产品</option>
-            <option value="生肉">🥩 生肉/肉制品</option>
-            <option value="熟食">🍗 熟食/卤味</option>
-            <option value="蛋类">🥚 蛋/蛋制品</option>
-          </select>
-        </div>
-      </div>
-      <div class="tool-actions">
-        <button class="btn btn-primary" onclick="genPlan()">✨ 生成策划方案</button>
-        <button class="btn btn-copy" onclick="copyText('tool1Preview')">📋 复制提示词</button>
-      </div>
-      <div id="tool1Preview" class="tool-preview"></div>
+  <!-- 工具①: 笔记策划 -->
+  <div class="section-label" id="note-plan-section">
+    <span class="icon">✨</span> 笔记策划工具
+    <span class="tag">输入产品 · 一键生成方案</span>
+  </div>
+
+  <div class="planner-card">
+    <div class="planner-intro">
+      基于本周行业风向，输入你的产品信息，生成可直接发给 AI 的策划提示词
     </div>
 
-    <!-- 工具② 封面策划 -->
-    <div class="tool-card">
-      <div class="tool-header">
-        <h3>🖼️ 封面示意图生成</h3>
-        <p>输入卖点 · 生成图片 Prompt。选一个方向去即梦生图参考。</p>
+    <div class="planner-form">
+      <div class="form-row-tool">
+        <label class="form-label">产品名称 <span class="required">*</span></label>
+        <input class="form-input" id="tool1Product" type="text" placeholder="例：大连鲜活海参、云南高山蓝莓、德州五香牛肉">
       </div>
-      <div class="tool-body">
-        <div class="form-group">
-          <label>产品名称 <span class="required">*</span></label>
-          <input class="form-input" id="tool2Product" placeholder="例：手工黑芝麻丸、鲜萃冷泡茶、贵州蘸水" />
+      <div class="form-row-tool">
+        <label class="form-label">核心卖点（选填）</label>
+        <input class="form-input" id="tool1Selling" type="text" placeholder="例：产地直发、活鲜现捕、非遗工艺、0添加">
+      </div>
+      <div class="form-row-tool">
+        <label class="form-label">目标人群（选填）</label>
+        <input class="form-input" id="tool1Audience" type="text" placeholder="例：孕期妈妈、健身人群、银发族、下厨达人">
+      </div>
+      <div class="form-row-tool">
+        <label class="form-label">品类</label>
+        <div class="cat-select-group">
+          <label class="cat-radio"><input type="radio" name="cat" value="水产肉类" checked><span>🐟 水产肉类</span></label>
+          <label class="cat-radio"><input type="radio" name="cat" value="新鲜蔬果"><span>🥬 新鲜蔬果</span></label>
+          <label class="cat-radio"><input type="radio" name="cat" value="熟食"><span>🍗 熟食/卤味</span></label>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>核心卖点（选填）</label>
-            <input class="form-input" id="tool2Selling" placeholder="例：古法九蒸九晒、0添加、外婆配方、产地直发" />
-          </div>
-          <div class="form-group">
-            <label>目标人群（选填）</label>
-            <input class="form-input" id="tool2Audience" placeholder="例：备考学生、减脂女生、宝妈、下厨爱好者" />
-          </div>
-        </div>
       </div>
-      <div class="tool-actions">
-        <button class="btn btn-secondary" onclick="genCover()">🤖 跳转豆包获取封面策划+生图</button>
-        <button class="btn btn-copy" onclick="copyText('tool2Preview')">📋 复制提示词</button>
-      </div>
-      <div id="tool2Preview" class="tool-preview"></div>
     </div>
 
-    <!-- 工具③ 违规预审 -->
-    <div class="tool-card">
-      <div class="tool-header">
-        <h3>🔍 标题正文违规预审</h3>
-        <p>贴入文案 · AI 逐条核查。自动核查违规风险并给出修改建议。</p>
-      </div>
-      <div class="tool-body">
-        <div class="form-group">
-          <label>笔记标题（选填）</label>
-          <input class="form-input" id="tool3Title" placeholder="例：7天瘦10斤！这个方法太有效了" />
-        </div>
-        <div class="form-group">
-          <label>笔记正文 <span class="required">*</span></label>
-          <textarea class="form-input" id="tool3Content" rows="5" placeholder="把你的笔记正文粘贴到这里…"></textarea>
-        </div>
-      </div>
-      <div class="tool-actions">
-        <button class="btn btn-primary" onclick="checkViolation()">🔍 开始审核</button>
-      </div>
-      <div id="tool3Preview" class="tool-preview"></div>
+    <div class="planner-actions">
+      <button class="btn-gen" onclick="openKimi()">✨ 用 Kimi 生成</button>
+      <button class="btn-gen btn-doubao" onclick="openDoubao()">🤖 用豆包生成</button>
+      <button class="btn-copy" onclick="copyPrompt()">📋 复制提示词</button>
     </div>
+
+    <div class="prompt-preview" id="tool1Preview">
+      <div class="prompt-label">生成的提示词预览</div>
+      <div class="prompt-text" id="prompt-text">填写产品信息后，这里会显示提示词预览…</div>
+    </div>
+  </div>
+
+  <!-- 工具②: 封面示意图生成 -->
+  <div class="section-label" style="margin-top:32px">
+    <span class="icon">🖼️</span> 封面示意图生成
+    <span class="tag">输入卖点 · 生成图片Prompt</span>
+  </div>
+  <div class="planner-card">
+    <div class="planner-intro" style="padding:0">
+      <div style="padding:14px 20px 10px;font-size:13px;color:#666;border-bottom:1px solid var(--border)">
+        输入产品信息 → 豆包生成6个封面方向 + 即梦Prompt → 选一个去即梦生图参考
+      </div>
+      <div style="display:flex;align-items:center;gap:0;padding:12px 20px;background:#f0fdf4;overflow-x:auto">
+        <div style="text-align:center;min-width:80px">
+          <div style="font-size:22px">📝</div>
+          <div style="font-size:11px;font-weight:700;color:#333;margin-top:4px">填写产品信息</div>
+          <div style="font-size:10px;color:#999;margin-top:2px">名称/卖点/人群</div>
+        </div>
+        <div style="color:#ccc;font-size:18px;padding:0 6px;flex-shrink:0">→</div>
+        <div style="text-align:center;min-width:80px">
+          <div style="font-size:22px">📋</div>
+          <div style="font-size:11px;font-weight:700;color:#333;margin-top:4px">复制提示词</div>
+          <div style="font-size:10px;color:#999;margin-top:2px">点击按钮自动复制</div>
+        </div>
+        <div style="color:#ccc;font-size:18px;padding:0 6px;flex-shrink:0">→</div>
+        <div style="text-align:center;min-width:90px">
+          <div style="font-size:22px">🤖</div>
+          <div style="font-size:11px;font-weight:700;color:#333;margin-top:4px">粘贴到豆包</div>
+          <div style="font-size:10px;color:#999;margin-top:2px">获取6个方向策划</div>
+        </div>
+        <div style="color:#ccc;font-size:18px;padding:0 6px;flex-shrink:0">→</div>
+        <div style="text-align:center;min-width:100px">
+          <div style="font-size:22px">✅</div>
+          <div style="font-size:11px;font-weight:700;color:#333;margin-top:4px">选中意的方向</div>
+          <div style="font-size:10px;color:#999;margin-top:2px">告诉豆包生成方向X</div>
+        </div>
+        <div style="color:#ccc;font-size:18px;padding:0 6px;flex-shrink:0">→</div>
+        <div style="text-align:center;min-width:80px">
+          <div style="font-size:22px">🎨</div>
+          <div style="font-size:11px;font-weight:700;color:#333;margin-top:4px">豆包直接生图</div>
+          <div style="font-size:10px;color:#999;margin-top:2px">无需跳转其他平台</div>
+        </div>
+      </div>
+    </div>
+    <div class="planner-form">
+      <div class="form-row-tool">
+        <label class="form-label">产品名称 <span class="required">*</span></label>
+        <input class="form-input" id="tool2Product" type="text" placeholder="例：舟山野生大黄鱼、丹东99草莓、四川腊肠">
+      </div>
+      <div class="form-row-tool">
+        <label class="form-label">核心卖点（选填）</label>
+        <input class="form-input" id="tool2Selling" type="text" placeholder="例：深海捕捞、当日现摘、古法腌制、农家散养">
+      </div>
+      <div class="form-row-tool">
+        <label class="form-label">目标人群（选填）</label>
+        <input class="form-input" id="tool2Audience" type="text" placeholder="例：精致宝妈、美食博主、送礼人群、独居青年">
+      </div>
+    </div>
+    <div class="planner-actions">
+      <button class="btn-gen btn-doubao" onclick="openCoverDoubao()">🤖 跳转豆包获取封面策划+生图</button>
+      <button class="btn-copy" onclick="copyCoverPrompt()">📋 复制提示词</button>
+    </div>
+    <div class="prompt-preview" id="tool2Preview">
+      <div class="prompt-label">封面策划提示词预览（复制后粘贴到豆包）</div>
+      <div class="prompt-text" id="cover-prompt-text">填写产品信息后，这里会显示封面策划提示词…</div>
+    </div>
+  </div>
+
+  <!-- 工具③: 标题正文违规预审 -->
+  <div class="section-label" style="margin-top:32px">
+    <span class="icon">🔍</span> 标题正文违规预审
+    <span class="tag">贴入文案 · AI逐条核查</span>
+  </div>
+  <div class="planner-card">
+    <div class="planner-intro">
+      贴入你的笔记标题或正文，AI 自动逐条核查违规风险并给出修改建议（结果直接显示，无需跳转）
+    </div>
+    <div class="planner-form">
+      <div class="form-row-tool">
+        <label class="form-label">笔记标题（选填）</label>
+        <input class="form-input" id="tool3Title" type="text" placeholder="例：7天瘦10斤！这个方法太有效了">
+      </div>
+      <div class="form-row-tool">
+        <label class="form-label">笔记正文 <span class="required">*</span></label>
+        <textarea class="form-input" id="tool3Content" rows="5" placeholder="把你的笔记正文粘贴到这里…" style="resize:vertical;line-height:1.6"></textarea>
+      </div>
+    </div>
+    <div class="planner-actions">
+      <button class="btn-gen" id="audit-btn" onclick="runAudit()">🔍 开始审核</button>
+    </div>
+    <div id="audit-result-area" style="display:none;padding:20px 24px;border-top:1px solid var(--border)">
+      <div style="font-size:12px;font-weight:700;color:#999;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">审核结果</div>
+      <div id="audit-result-content" style="font-size:13px;line-height:1.8;color:#333;white-space:pre-wrap"></div>
+    </div>
+  </div>
 
   </div>
 
-</div>
-
-<div class="footer">
+<div class="footer"><div class="footer">
   小红书电商 · 生鲜 · 数据来源：小红书 BI 平台 · 每周一更新<br>
   团子 × 白薇 出品 🦞
 </div>
@@ -774,7 +832,76 @@ function runDiagnosis() {
   `;
 }
 
-// 工具① 笔记策划
+// 工具① 笔记策划 — 提示词生成
+function getPrompt() {
+  const product = document.getElementById('tool1Product').value.trim();
+  if (!product) return '';
+  const selling = document.getElementById('tool1Selling').value.trim() || '未指定';
+  const audience = document.getElementById('tool1Audience').value.trim() || '未指定';
+  const catEl = document.querySelector('input[name="cat"]:checked');
+  const category = catEl ? catEl.value : '水产肉类';
+  const wind = getCatWind(category);
+  return `你是小红书生鲜行业资深运营。请为以下产品策划一篇商品笔记方案：
+
+【产品信息】
+- 产品：${product}
+- 核心卖点：${selling}
+- 目标人群：${audience}
+- 品类：${category}
+
+【本周行业风向参考】${wind}
+
+【输出要求】
+1. 提供 3 个标题方案（套用行业标题公式）
+2. 封面建议（视觉方向 + 文案排版）
+3. 正文结构框架（开头钩子 → 卖点展开 → 行动引导）
+4. 标签建议（5-8个 #tag）
+5. 发布时间建议
+
+请用简洁清晰的格式输出，方便直接执行。`;
+}
+
+function getCatWind(cat) {
+  const winds = {
+    '水产肉类': `
+- 热门趋势：原产地实拍故事、深海捕捞现场、活鲜开箱
+- 标题公式："产地直发+价格冲击"、"XX吃了N年的XX"、"频繁吃XX的代价"
+- 爆款封面：大字报价格 + 产品特写、渔船出海实拍
+- 内容方向：真实捕捞/养殖过程、冷链开箱、家人试吃反馈`,
+    '新鲜蔬果': `
+- 热门趋势：产地溯源、当季水果测评、减脂沙拉食谱
+- 标题公式："XX季节必吃的水果"、"减脂期靠它续命"、"XX元实现XX自由"
+- 爆款封面：色彩鲜艳的产品堆叠、切面特写（果汁/果肉质感）
+- 内容方向：开箱验果、甜度测评、健康食谱搭配`,
+    '熟食': `
+- 热门趋势：非遗工艺故事、深夜食堂场景、一人食便当
+- 标题公式："XX地人都排队买的XX"、"微波炉3分钟还原堂食"、"深夜放毒"
+- 爆款封面：热气腾腾的开箱瞬间、卤味拉丝/流心特写
+- 内容方向：加热还原过程、配料表分析、对比外卖性价比`
+  };
+  return winds[cat] || '';
+}
+
+function openKimi() {
+  const prompt = getPrompt();
+  if (!prompt) { alert('请先填写产品名称'); return; }
+  navigator.clipboard.writeText(prompt).then(() => {
+    window.open('https://kimi.chat', '_blank');
+  }).catch(() => {
+    window.open('https://kimi.chat', '_blank');
+  });
+}
+
+function openDoubao() {
+  const prompt = getPrompt();
+  if (!prompt) { alert('请先填写产品名称'); return; }
+  navigator.clipboard.writeText(prompt).then(() => {
+    window.open('https://www.doubao.com/chat', '_blank');
+  }).catch(() => {
+    window.open('https://www.doubao.com/chat', '_blank');
+  });
+}
+
 function genPlan() {
   const product = document.getElementById('tool1Product').value.trim();
   if (!product) return alert('请输入产品名称');
@@ -808,7 +935,36 @@ function genPlan() {
   el.classList.add('show');
 }
 
-// 工具② 封面策划
+function getCoverPrompt() {
+  const product = document.getElementById('tool2Product').value.trim();
+  if (!product) return '';
+  const selling = document.getElementById('tool2Selling').value.trim() || '未指定';
+  const audience = document.getElementById('tool2Audience').value.trim() || '未指定';
+  return `请为小红书生鲜产品「${product}」（卖点：${selling}，人群：${audience}）策划 6 个封面方向。
+
+每个方向包含：
+1. 封面类型（产品展示/场景图/对比图/文字大字报/开箱/食用过程）
+2. 视觉描述（构图、色调、主体）
+3. 封面文案（主标题 + 副标题）
+4. 即梦 AI 生图 Prompt（可直接复制使用）
+
+要求：
+- 贴合小红书生鲜类目爆款封面风格
+- 包含至少1个大字报价格封面和1个原产地实拍风格
+- 即梦 Prompt 需要具体到光线、角度、背景、风格`;
+}
+
+function openCoverDoubao() {
+  const prompt = getCoverPrompt();
+  if (!prompt) { alert('请先填写产品名称'); return; }
+  navigator.clipboard.writeText(prompt).then(() => {
+    window.open('https://www.doubao.com/chat', '_blank');
+  }).catch(() => {
+    window.open('https://www.doubao.com/chat', '_blank');
+  });
+}
+
+// 工具② 封面策划（保留兼容）
 function genCover() {
   const product = document.getElementById('tool2Product').value.trim();
   if (!product) return alert('请输入产品名称');
@@ -833,7 +989,7 @@ function genCover() {
 }
 
 // 工具③ 违规预审
-function checkViolation() {
+function runAudit() {
   const title = document.getElementById('tool3Title').value.trim();
   const content = document.getElementById('tool3Content').value.trim();
   if (!content && !title) return alert('请至少输入标题或正文');
@@ -858,9 +1014,12 @@ function checkViolation() {
     }
   });
 
-  const el = document.getElementById('tool3Preview');
+  const resultArea = document.getElementById('audit-result-area');
+  const resultContent = document.getElementById('audit-result-content');
+  resultArea.style.display = 'block';
+
   if (violations.length === 0) {
-    el.innerHTML = '✅ <strong>未检测到明显违规风险</strong>，可以放心发布！';
+    resultContent.innerHTML = '✅ <strong>未检测到明显违规风险</strong>，可以放心发布！';
   } else {
     let html = `⚠️ 检测到 <strong>${violations.length}</strong> 条潜在风险：\n\n`;
     violations.forEach((v, i) => {
@@ -868,12 +1027,32 @@ function checkViolation() {
       html += `${badge} <strong>${v.desc}</strong>\n   修改建议：${v.suggest}\n\n`;
     });
     html += '💡 以上为 AI 预审结果，仅供参考。最终请以平台规则为准。';
-    el.innerHTML = html;
+    resultContent.innerHTML = html;
   }
-  el.classList.add('show');
 }
 
-// 复制
+// 复制提示词
+function copyPrompt() {
+  const prompt = getPrompt();
+  if (!prompt) { alert('请先填写产品名称'); return; }
+  navigator.clipboard.writeText(prompt).then(() => {
+    alert('✅ 提示词已复制到剪贴板，粘贴到 Kimi 或豆包即可');
+  }).catch(() => {
+    alert('⚠️ 复制失败，请手动选择文本复制');
+  });
+}
+
+function copyCoverPrompt() {
+  const prompt = getCoverPrompt();
+  if (!prompt) { alert('请先填写产品名称'); return; }
+  navigator.clipboard.writeText(prompt).then(() => {
+    alert('✅ 封面策划提示词已复制到剪贴板');
+  }).catch(() => {
+    alert('⚠️ 复制失败，请手动选择文本复制');
+  });
+}
+
+// 复制（保留兼容）
 function copyText(id) {
   const el = document.getElementById(id);
   if (!el || !el.textContent) return alert('请先生成内容');
@@ -890,6 +1069,28 @@ function copyText(id) {
     alert('✅ 已复制到剪贴板');
   });
 }
+
+// 实时更新提示词预览
+function updatePreview() {
+  const text1 = getPrompt();
+  const text2 = getCoverPrompt();
+  const el1 = document.getElementById('prompt-text');
+  const el2 = document.getElementById('cover-prompt-text');
+  if (el1) el1.textContent = text1 || '填写产品信息后，这里会显示提示词预览…';
+  if (el2) el2.textContent = text2 || '填写产品信息后，这里会显示封面策划提示词…';
+}
+
+// 监听输入和品类切换
+document.addEventListener('DOMContentLoaded', function() {
+  ['tool1Product','tool1Selling','tool1Audience','tool2Product','tool2Selling','tool2Audience'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.addEventListener('input', updatePreview); el.addEventListener('change', updatePreview); }
+  });
+  document.querySelectorAll('input[name="cat"]').forEach(function(r) {
+    r.addEventListener('change', updatePreview);
+  });
+  updatePreview();
+});
 </script>
 
 </body>

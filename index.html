@@ -637,10 +637,10 @@ const SELLER_DB = [{"name": "甘果四喜旗舰店", "notes": 4031, "daily": 287
 
 // 行业基准
 const BENCH = {
-  note_ctr: { top: 10, avg: 7, low: 5 },
-  tag_ctr: { top: 12, avg: 10, low: 7 },
-  daily: { high: 6.5, low: 1.9 }, // 行业均值6.5 / 中位数1.9（4/3-4/16生鲜大盘）
-  cvr: { avg: 10.8, low: 8.1 } // 行业均值10.8% / 中位数8.1%（4/3-4/16生鲜大盘）
+  note_ctr: { top: 10, avg: 7, low: 5 }, // 同Tab1行业基准
+  tag_ctr: { top: 12, avg: 10, low: 7 }, // 同Tab1行业基准
+  daily: { high: 8, low: 1 }, // 同Tab1：TOP 8+篇/天，待提升 <1篇/天
+  cvr: { avg: 5, low: 2 } // 同Tab1：均值5%，待提升<2%
 };
 
 function getBenchLevel(value, key) {

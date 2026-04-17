@@ -502,14 +502,15 @@
 
   </div>
 
+  
   <!-- ========== Tab 2: 账号诊断 ========== -->
   <div id="panel-diag" class="tab-panel hidden">
     <div class="diag-intro">
       <h2>🔍 商品笔记账号诊断</h2>
-      <p>输入店铺名，秒出诊断。基于近 14 天真实数据，覆盖生鲜六组商家。</p>
+      <p>输入店铺名，秒出诊断。基于 48 个生鲜商家真实数据（4/10-4/16）。</p>
     </div>
     <div class="diag-search">
-      <input type="text" id="diagInput" placeholder="输入店铺名关键词，如：某某果园" />
+      <input type="text" id="diagInput" placeholder="输入店铺名关键词，如：野里鲜果、果小乐" onkeydown="if(event.key==='Enter')runDiagnosis()" />
       <button onclick="runDiagnosis()">开始诊断</button>
     </div>
     <div id="diagResult" class="diag-result">
@@ -517,7 +518,7 @@
     </div>
   </div>
 
-  <!-- ========== Tab 3: 实用工具 ========== -->
+<!-- ========== Tab 3: 实用工具 ========== -->
   <div id="panel-tools" class="tab-panel hidden">
 
     <!-- 工具① 笔记策划 -->
@@ -631,51 +632,810 @@ function switchTab(tab) {
   if (panel) panel.classList.remove('hidden');
 }
 
-// 账号诊断
+
+// 商家数据库（48个商家）
+// 六组商家数据库（4/10-4/16，48个商家）
+const SELLER_DB = [
+  {
+    "name": "野里鲜果的店",
+    "id": "6613ced8aeebf800015600ca",
+    "am": "千花",
+    "cat": "新鲜水果",
+    "notes": 3555,
+    "daily": 507.9,
+    "imp": 8977685,
+    "note_ctr": 5.7,
+    "tag_ctr": 5.0,
+    "cvr": 11.9
+  },
+  {
+    "name": "果小乐的店",
+    "id": "67f769df1979a400155db4f3",
+    "am": "美芽",
+    "cat": "新鲜水果",
+    "notes": 24085,
+    "daily": 3440.7,
+    "imp": 8141731,
+    "note_ctr": 12.2,
+    "tag_ctr": 7.0,
+    "cvr": 9.1
+  },
+  {
+    "name": "我的卖果记的店",
+    "id": "67a82fc03e42d6001513ea75",
+    "am": "有宇",
+    "cat": "新鲜水果",
+    "notes": 1017,
+    "daily": 145.3,
+    "imp": 7324282,
+    "note_ctr": 3.6,
+    "tag_ctr": 16.7,
+    "cvr": 16.2
+  },
+  {
+    "name": "柚子脑🍊的店",
+    "id": "66b5d220faaf63001575d7c6",
+    "am": "白薇",
+    "cat": "新鲜水果",
+    "notes": 1334,
+    "daily": 190.6,
+    "imp": 6912294,
+    "note_ctr": 5.1,
+    "tag_ctr": 12.5,
+    "cvr": 12.8
+  },
+  {
+    "name": "果农人阿强（海南凤梨季）的店",
+    "id": "63060c2b7e09110001b7e4e3",
+    "am": "千花",
+    "cat": "新鲜水果",
+    "notes": 4470,
+    "daily": 638.6,
+    "imp": 6341888,
+    "note_ctr": 5.7,
+    "tag_ctr": 17.2,
+    "cvr": 7.2
+  },
+  {
+    "name": "不果瘾的店",
+    "id": "6821f0cf8df66f00156352b9",
+    "am": "千花",
+    "cat": "新鲜水果",
+    "notes": 3488,
+    "daily": 498.3,
+    "imp": 5615599,
+    "note_ctr": 5.4,
+    "tag_ctr": 38.3,
+    "cvr": 5.8
+  },
+  {
+    "name": "海边原著的店",
+    "id": "62655f1c82ea840001cee9c4",
+    "am": "白薇",
+    "cat": "海鲜/水产品/制品",
+    "notes": 4669,
+    "daily": 667.0,
+    "imp": 5051113,
+    "note_ctr": 6.6,
+    "tag_ctr": 28.3,
+    "cvr": 5.7
+  },
+  {
+    "name": "汕头龙北市场沈记牛肉丸的店",
+    "id": "66c723d3dc38c500153c4f9f",
+    "am": "有宇",
+    "cat": "生肉/肉制品",
+    "notes": 2381,
+    "daily": 340.1,
+    "imp": 4462896,
+    "note_ctr": 9.8,
+    "tag_ctr": 6.3,
+    "cvr": 8.9
+  },
+  {
+    "name": "桃掌柜果蔬的店",
+    "id": "644b5d7cade08100014e9357",
+    "am": "有宇",
+    "cat": "新鲜蔬菜/蔬菜制品",
+    "notes": 3678,
+    "daily": 525.4,
+    "imp": 4003768,
+    "note_ctr": 6.9,
+    "tag_ctr": 9.5,
+    "cvr": 13.5
+  },
+  {
+    "name": "甘果四喜旗舰店",
+    "id": "64d9df3a146c1c00017f1bc4",
+    "am": "美芽",
+    "cat": "新鲜水果",
+    "notes": 43425,
+    "daily": 6203.6,
+    "imp": 3772186,
+    "note_ctr": 6.9,
+    "tag_ctr": 2.5,
+    "cvr": 9.8
+  },
+  {
+    "name": "沧海渔舟的店",
+    "id": "69451b9eafffef0015b869df",
+    "am": "千花",
+    "cat": "海鲜/水产品/制品",
+    "notes": 1061,
+    "daily": 151.6,
+    "imp": 3376470,
+    "note_ctr": 6.2,
+    "tag_ctr": 9.2,
+    "cvr": 4.5
+  },
+  {
+    "name": "牛肉丸研究所🐮的店",
+    "id": "66c8754ed550aa0015e1d4b4",
+    "am": "酋长",
+    "cat": "海鲜/水产品/制品",
+    "notes": 410,
+    "daily": 58.6,
+    "imp": 3277959,
+    "note_ctr": 6.9,
+    "tag_ctr": 30.7,
+    "cvr": 14.8
+  },
+  {
+    "name": "果壹生鲜的店",
+    "id": "6863f5dad194c60015615dd9",
+    "am": "白薇",
+    "cat": "新鲜水果",
+    "notes": 3768,
+    "daily": 538.3,
+    "imp": 2861757,
+    "note_ctr": 6.4,
+    "tag_ctr": 30.7,
+    "cvr": 11.0
+  },
+  {
+    "name": "小妹果园的店",
+    "id": "6665393f97b6e20001a81fb9",
+    "am": "酋长",
+    "cat": "新鲜蔬菜/蔬菜制品",
+    "notes": 2034,
+    "daily": 290.6,
+    "imp": 2688500,
+    "note_ctr": 5.4,
+    "tag_ctr": 3.4,
+    "cvr": 12.5
+  },
+  {
+    "name": "魏建伟卖大闸蟹的店",
+    "id": "64d9fc02c4dc440001434e66",
+    "am": "白薇",
+    "cat": "海鲜/水产品/制品",
+    "notes": 1421,
+    "daily": 203.0,
+    "imp": 2262540,
+    "note_ctr": 8.3,
+    "tag_ctr": 19.8,
+    "cvr": 6.2
+  },
+  {
+    "name": "圆姑娘的三门青蟹的店",
+    "id": "64d5ece3e21b7a0001cafa10",
+    "am": "美芽",
+    "cat": "海鲜/水产品/制品",
+    "notes": 1700,
+    "daily": 242.9,
+    "imp": 2257960,
+    "note_ctr": 12.0,
+    "tag_ctr": 15.9,
+    "cvr": 4.8
+  },
+  {
+    "name": "七分甜的店",
+    "id": "6583e6ada233610001081690",
+    "am": "美芽",
+    "cat": "新鲜水果",
+    "notes": 4867,
+    "daily": 695.3,
+    "imp": 2223888,
+    "note_ctr": 10.1,
+    "tag_ctr": 23.3,
+    "cvr": 8.8
+  },
+  {
+    "name": "卖东海墨鱼干的店",
+    "id": "6432bee43a4a69000191c732",
+    "am": "美芽",
+    "cat": "海鲜/水产品/制品",
+    "notes": 2084,
+    "daily": 297.7,
+    "imp": 2022581,
+    "note_ctr": 7.2,
+    "tag_ctr": 23.3,
+    "cvr": 10.7
+  },
+  {
+    "name": "宁安家的店",
+    "id": "693e538a2a745a001562d7fe",
+    "am": "千花",
+    "cat": "熟食/卤味/即食菜",
+    "notes": 467,
+    "daily": 66.7,
+    "imp": 2002347,
+    "note_ctr": 10.8,
+    "tag_ctr": 19.0,
+    "cvr": 5.2
+  },
+  {
+    "name": "农妈罗萍的店",
+    "id": "62175c2f5f450f0001725210",
+    "am": "有宇",
+    "cat": "新鲜水果",
+    "notes": 5908,
+    "daily": 844.0,
+    "imp": 1975015,
+    "note_ctr": 4.6,
+    "tag_ctr": 13.5,
+    "cvr": 11.2
+  },
+  {
+    "name": "零点森态旗舰店",
+    "id": "6540b4a9368edf00013dba9e",
+    "am": "千花",
+    "cat": "新鲜水果",
+    "notes": 3132,
+    "daily": 447.4,
+    "imp": 1927954,
+    "note_ctr": 9.8,
+    "tag_ctr": 8.5,
+    "cvr": 8.1
+  },
+  {
+    "name": "下厨房旗舰店",
+    "id": "6422a386970ed30001de2d46",
+    "am": "有宇",
+    "cat": "海鲜/水产品/制品",
+    "notes": 2436,
+    "daily": 348.0,
+    "imp": 1805844,
+    "note_ctr": 6.6,
+    "tag_ctr": 6.0,
+    "cvr": 11.2
+  },
+  {
+    "name": "星星家果园🍒的店",
+    "id": "62564b6cf395c10001e30f34",
+    "am": "有宇",
+    "cat": "新鲜水果",
+    "notes": 380,
+    "daily": 54.3,
+    "imp": 1763807,
+    "note_ctr": 5.4,
+    "tag_ctr": 21.1,
+    "cvr": 6.7
+  },
+  {
+    "name": "皮皮李生鲜水果的店",
+    "id": "65e1a8fc4d3d700001745f6d",
+    "am": "千花",
+    "cat": "新鲜水果",
+    "notes": 2486,
+    "daily": 355.1,
+    "imp": 1754868,
+    "note_ctr": 8.6,
+    "tag_ctr": 18.2,
+    "cvr": 10.0
+  },
+  {
+    "name": "朱一一的水果铺的店",
+    "id": "65f3c27ddbd5d900013159fd",
+    "am": "千花",
+    "cat": "新鲜水果",
+    "notes": 3981,
+    "daily": 568.7,
+    "imp": 1743369,
+    "note_ctr": 8.5,
+    "tag_ctr": 8.1,
+    "cvr": 9.8
+  },
+  {
+    "name": "卖生鲜的小女孩的店",
+    "id": "62285dd8536b090001f2befa",
+    "am": "美芽",
+    "cat": "新鲜水果",
+    "notes": 3983,
+    "daily": 569.0,
+    "imp": 1725885,
+    "note_ctr": 5.0,
+    "tag_ctr": 12.7,
+    "cvr": 12.5
+  },
+  {
+    "name": "子禾高端水果精选的店",
+    "id": "6227692014f230000122829f",
+    "am": "有宇",
+    "cat": "新鲜蔬菜/蔬菜制品",
+    "notes": 4808,
+    "daily": 686.9,
+    "imp": 1679322,
+    "note_ctr": 7.8,
+    "tag_ctr": 3.6,
+    "cvr": 12.4
+  },
+  {
+    "name": "小吴女士的大闸蟹的店",
+    "id": "633ac295b74d0a00017ca05b",
+    "am": "白薇",
+    "cat": "海鲜/水产品/制品",
+    "notes": 2146,
+    "daily": 306.6,
+    "imp": 1653934,
+    "note_ctr": 7.4,
+    "tag_ctr": 8.1,
+    "cvr": 6.0
+  },
+  {
+    "name": "一凡麻麻严选农产品的店",
+    "id": "62b2cfdeb25d7e0001851b3a",
+    "am": "白薇",
+    "cat": "调味品/果酱/沙拉/干副食",
+    "notes": 595,
+    "daily": 85.0,
+    "imp": 1651851,
+    "note_ctr": 8.8,
+    "tag_ctr": 5.4,
+    "cvr": 12.4
+  },
+  {
+    "name": "牛羊家宴的店",
+    "id": "694ca629fdb3f10015ec0c9b",
+    "am": "有宇",
+    "cat": "生肉/肉制品",
+    "notes": 181,
+    "daily": 25.9,
+    "imp": 1650478,
+    "note_ctr": 8.1,
+    "tag_ctr": 25.4,
+    "cvr": 2.7
+  },
+  {
+    "name": "洋洋乡村生活~的店",
+    "id": "612c7e6e1f6039000173d1c1",
+    "am": "千花",
+    "cat": "新鲜水果",
+    "notes": 10137,
+    "daily": 1448.1,
+    "imp": 1622641,
+    "note_ctr": 4.9,
+    "tag_ctr": 14.4,
+    "cvr": 8.5
+  },
+  {
+    "name": "鱼切切计划的店",
+    "id": "655dbe4ced354f0001ca7449",
+    "am": "美芽",
+    "cat": "海鲜/水产品/制品",
+    "notes": 1707,
+    "daily": 243.9,
+    "imp": 1597585,
+    "note_ctr": 7.0,
+    "tag_ctr": 23.4,
+    "cvr": 4.6
+  },
+  {
+    "name": "千禾霖生鲜旗舰店",
+    "id": "67b97c58e04061001547a598",
+    "am": "美芽",
+    "cat": "新鲜蔬菜/蔬菜制品",
+    "notes": 7309,
+    "daily": 1044.1,
+    "imp": 1457851,
+    "note_ctr": 10.8,
+    "tag_ctr": 3.7,
+    "cvr": 9.3
+  },
+  {
+    "name": "CUBO Fresh三文鱼旗舰店",
+    "id": "690ae514c8b1050015751f78",
+    "am": "有宇",
+    "cat": "海鲜/水产品/制品",
+    "notes": 821,
+    "daily": 117.3,
+    "imp": 1440163,
+    "note_ctr": 9.7,
+    "tag_ctr": 28.4,
+    "cvr": 3.5
+  },
+  {
+    "name": "杨博士旗舰店",
+    "id": "63c5225a09e8950001c5448f",
+    "am": "有宇",
+    "cat": "生肉/肉制品",
+    "notes": 3041,
+    "daily": 434.4,
+    "imp": 1368989,
+    "note_ctr": 5.9,
+    "tag_ctr": 8.2,
+    "cvr": 9.8
+  },
+  {
+    "name": "东方甄选旗舰店",
+    "id": "6527bb930ea1560001d1efd4",
+    "am": "有宇",
+    "cat": "新鲜水果",
+    "notes": 1576,
+    "daily": 225.1,
+    "imp": 1303320,
+    "note_ctr": 2.1,
+    "tag_ctr": 3.2,
+    "cvr": 18.1
+  },
+  {
+    "name": "御上生鲜的店",
+    "id": "66d03e261b08ef0016764616",
+    "am": "有宇",
+    "cat": "生肉/肉制品",
+    "notes": 850,
+    "daily": 121.4,
+    "imp": 1289998,
+    "note_ctr": 7.4,
+    "tag_ctr": 24.3,
+    "cvr": 4.3
+  },
+  {
+    "name": "哞小牛生鲜的店",
+    "id": "6676b4480c44ec0001e9aeca",
+    "am": "有宇",
+    "cat": "生肉/肉制品",
+    "notes": 1552,
+    "daily": 221.7,
+    "imp": 1257866,
+    "note_ctr": 7.5,
+    "tag_ctr": 21.9,
+    "cvr": 5.8
+  },
+  {
+    "name": "甘果四喜生鲜的店",
+    "id": "67e3c147c38b7a0015e8e17c",
+    "am": "美芽",
+    "cat": "新鲜水果",
+    "notes": 10969,
+    "daily": 1567.0,
+    "imp": 1223909,
+    "note_ctr": 12.4,
+    "tag_ctr": 8.1,
+    "cvr": 7.5
+  },
+  {
+    "name": "小万的牛油果日记的店",
+    "id": "67ee22266c92670015140d50",
+    "am": "酋长",
+    "cat": "新鲜水果",
+    "notes": 2016,
+    "daily": 288.0,
+    "imp": 1176606,
+    "note_ctr": 6.7,
+    "tag_ctr": 4.9,
+    "cvr": 18.3
+  },
+  {
+    "name": "振义回村记的店",
+    "id": "654b698bbffe7300015613a9",
+    "am": "千花",
+    "cat": "新鲜蔬菜/蔬菜制品",
+    "notes": 6677,
+    "daily": 953.9,
+    "imp": 1137053,
+    "note_ctr": 6.2,
+    "tag_ctr": 9.8,
+    "cvr": 22.5
+  },
+  {
+    "name": "牛牛镖局的店",
+    "id": "6702824a162d110016893907",
+    "am": "有宇",
+    "cat": "生肉/肉制品",
+    "notes": 3787,
+    "daily": 541.0,
+    "imp": 1096439,
+    "note_ctr": 9.3,
+    "tag_ctr": 21.1,
+    "cvr": 3.5
+  },
+  {
+    "name": "家有2000亩牛油果的孕妇的店",
+    "id": "655b85b09665fd00016d8ba3",
+    "am": "千花",
+    "cat": "新鲜蔬菜/蔬菜制品",
+    "notes": 2117,
+    "daily": 302.4,
+    "imp": 1065841,
+    "note_ctr": 7.2,
+    "tag_ctr": 12.0,
+    "cvr": 11.0
+  },
+  {
+    "name": "源味十二季旗舰店",
+    "id": "65e9006908dad20001119333",
+    "am": "白薇",
+    "cat": "新鲜水果",
+    "notes": 3487,
+    "daily": 498.1,
+    "imp": 1061919,
+    "note_ctr": 5.6,
+    "tag_ctr": 27.3,
+    "cvr": 12.3
+  },
+  {
+    "name": "沂蒙山桃状元的店",
+    "id": "643f52e0f59230000155a801",
+    "am": "有宇",
+    "cat": "新鲜水果",
+    "notes": 2885,
+    "daily": 412.1,
+    "imp": 1005439,
+    "note_ctr": 4.4,
+    "tag_ctr": 9.8,
+    "cvr": 14.8
+  },
+  {
+    "name": "洋葱的海边日记的店",
+    "id": "657695cfd528e000012bc333",
+    "am": "有宇",
+    "cat": "海鲜/水产品/制品",
+    "notes": 2231,
+    "daily": 318.7,
+    "imp": 944030,
+    "note_ctr": 8.4,
+    "tag_ctr": 8.3,
+    "cvr": 5.2
+  },
+  {
+    "name": "潮汕三宝的店",
+    "id": "637b153b80e375000165562a",
+    "am": "有宇",
+    "cat": "新鲜水果",
+    "notes": 968,
+    "daily": 138.3,
+    "imp": 913422,
+    "note_ctr": 6.1,
+    "tag_ctr": 21.7,
+    "cvr": 10.0
+  },
+  {
+    "name": "是七七柒吖的店",
+    "id": "68916cddfb49e90015b9cc23",
+    "am": "千花",
+    "cat": "新鲜蔬菜/蔬菜制品",
+    "notes": 1909,
+    "daily": 272.7,
+    "imp": 909527,
+    "note_ctr": 7.3,
+    "tag_ctr": 10.2,
+    "cvr": 7.6
+  }
+];
+
+
+// 行业基准
+const BENCH = {
+  note_ctr: { top: 10, avg: 7, low: 5 },
+  tag_ctr: { top: 12, avg: 10, low: 7 },
+  daily: { active: 100, normal: 20 }
+};
+
+function getBenchLevel(value, key) {
+  const b = BENCH[key];
+  if (value >= b.top) return { label: '优秀', cls: 'green', emoji: '✅' };
+  if (value >= b.avg) return { label: '正常', cls: 'yellow', emoji: '⚠️' };
+  if (value >= b.low) return { label: '偏低', cls: 'orange', emoji: '⚠️' };
+  return { label: '低效', cls: 'red', emoji: '🔴' };
+}
+
+function getDailyLevel(daily) {
+  if (daily >= BENCH.daily.active) return { label: '活跃', cls: 'green', emoji: '✅' };
+  if (daily >= BENCH.daily.normal) return { label: '一般', cls: 'yellow', emoji: '⚠️' };
+  return { label: '低频', cls: 'red', emoji: '🔴' };
+}
+
+function getDiagnosis(note_ctr, tag_ctr, cvr) {
+  const ctrHigh = note_ctr >= BENCH.note_ctr.avg;
+  const cvrHigh = cvr >= 8; // 购买转化率8%为参考线
+
+  if (ctrHigh && cvrHigh) {
+    return {
+      title: '🟢 内容转化双优',
+      desc: '笔记点击率和购买转化率均高于行业均值，说明内容吸引且承接能力强。建议加大发布量，扩品扩量，趁热打铁。',
+      actions: [
+        '📈 增加日更频次至200+篇/周，放大流量优势',
+        '🔄 复制高CTR标题公式到更多SKU',
+        '💰 适当增加投流预算，撬动更大GMV'
+      ]
+    };
+  } else if (ctrHigh && !cvrHigh) {
+    return {
+      title: '🟡 内容吸引但转化偏弱',
+      desc: '笔记点击率达标但购买转化不足。内容方向对了，但商卡承接或价格机制需要优化。',
+      actions: [
+        '🏷️ 检查商卡价格和促销力度，增加限时优惠',
+        '📦 优化商品详情页：首图+卖点+评价',
+        '🎯 尝试套装组合提升客单价和转化率'
+      ]
+    };
+  } else if (!ctrHigh && cvrHigh) {
+    return {
+      title: '🟡 转化好但内容需优化',
+      desc: '购买转化率高说明商品力和价格有优势，但笔记CTR偏低，内容需要调整提升吸引力。',
+      actions: [
+        '📝 优化标题公式：使用「购买力冲击/家庭叙事/唯一缺点」等本周热门公式',
+        '🖼️ 重做封面：大字报价格+产品特写，提升点击欲望',
+        '🔍 加强搜索词布局，覆盖更多长尾流量'
+      ]
+    };
+  } else {
+    return {
+      title: '🔴 内容和转化都需要提升',
+      desc: '笔记CTR和购买转化率均低于行业均值，需要全面诊断和优化。',
+      actions: [
+        '📊 先对标同类目TOP商家，拆解其标题和封面策略',
+        '✍️ 参考本周标题公式重写出5个标题测试',
+        '🎨 封面增加价格锚点和产品特写，提升点击率',
+        '💡 检查商卡价格机制和促销设置'
+      ]
+    };
+  }
+}
+
+function getCatAdvice(cat, note_ctr, tag_ctr, cvr) {
+  const adviceMap = {
+    '新鲜水果': {
+      high: '水果类目本周"低卡标签"+"产地直发"笔记表现强势，建议加强这两个方向的标题和封面策略',
+      low: '水果类目竞争激烈，建议突出"产地优势+价格锚点"，使用家庭叙事标题提升信任感'
+    },
+    '新鲜蔬菜/蔬菜制品': {
+      high: '蔬菜类目"补钾概念"+"粗粮替代"场景上升，建议抓住健康饮食趋势',
+      low: '蔬菜类目建议用"原产地故事+低价策略"组合，参考振义回村记的成功模式'
+    },
+    '海鲜/水产品/制品': {
+      high: '海鲜类目"一人食小包装"+"渔船直发叙事"表现强势，建议加大内容投放',
+      low: '海鲜类目建议突出"新鲜度+稀缺感"，使用渔船/产地实拍提升信任'
+    },
+    '生肉/肉制品': {
+      high: '肉制品类目"百元购买力叙事"霸榜，建议强化价格优势和分量感',
+      low: '肉制品类目建议用"购买力冲击"标题公式，突出"100元能买多少"的价值感'
+    }
+  };
+  const advice = adviceMap[cat];
+  if (!advice) return '建议参考本周行业风向，优化标题和封面策略';
+  return note_ctr >= BENCH.note_ctr.avg ? advice.high : advice.low;
+}
+
+// 模糊匹配
+function fuzzyMatch(query, name) {
+  const q = query.toLowerCase();
+  const n = name.toLowerCase();
+  // 完全包含
+  if (n.includes(q)) return true;
+  // 去除"的店"后缀匹配
+  if (n.replace(/的店/g, '').includes(q.replace(/的店/g, ''))) return true;
+  // 去除emoji后匹配
+  const cleanQ = q.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🍊🍒🦐🐮🦞/gu, '');
+  const cleanN = n.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🍊🍒🦐🐮🦞/gu, '');
+  if (cleanN.includes(cleanQ)) return true;
+  return false;
+}
+
 function runDiagnosis() {
-  const name = document.getElementById('diagInput').value.trim();
-  if (!name) return alert('请输入店铺名');
+  const query = document.getElementById('diagInput').value.trim();
+  if (!query) return alert('请输入店铺名关键词');
+
+  // 模糊搜索
+  const matches = SELLER_DB.filter(s => fuzzyMatch(query, s.name));
+
   const result = document.getElementById('diagResult');
   result.classList.add('show');
+
+  if (matches.length === 0) {
+    result.innerHTML = `
+      <div style="text-align:center;padding:40px 20px">
+        <div style="font-size:48px;margin-bottom:16px">🔍</div>
+        <h3 style="color:#666;margin-bottom:8px">未找到「${query}」的商家数据</h3>
+        <p style="color:#999;font-size:14px;margin-bottom:16px">请检查店铺名是否正确，或尝试其他关键词</p>
+        <p style="color:#bbb;font-size:12px">当前数据库覆盖 48 个生鲜商家（4/10-4/16）</p>
+      </div>
+    `;
+    return;
+  }
+
+  // 取第一个匹配
+  const s = matches[0];
+  const noteLevel = getBenchLevel(s.note_ctr, 'note_ctr');
+  const tagLevel = getBenchLevel(s.tag_ctr, 'tag_ctr');
+  const dailyLevel = getDailyLevel(s.daily);
+  const diag = getDiagnosis(s.note_ctr, s.tag_ctr, s.cvr);
+  const catAdvice = getCatAdvice(s.cat, s.note_ctr, s.tag_ctr, s.cvr);
+
+  const statusBadge = (level) => {
+    const colors = { green: '#10b981', yellow: '#f59e0b', orange: '#f59e0b', red: '#ef4444' };
+    const bg = { green: '#f0fdf4', yellow: '#fffbeb', orange: '#fffbeb', red: '#fef2f2' };
+    return `<span style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:${bg[level.cls]};color:${colors[level.cls]}">${level.emoji} ${level.label}</span>`;
+  };
+
   result.innerHTML = `
-    <h3>📊 ${name} · 诊断报告</h3>
-    <div class="diag-metrics">
-      <div class="diag-metric"><div class="diag-metric-label">近14天笔记数</div><div class="diag-metric-val">${Math.floor(Math.random()*20+5)}</div></div>
-      <div class="diag-metric"><div class="diag-metric-label">商笔 CTR</div><div class="diag-metric-val">${(Math.random()*30+10).toFixed(1)}%</div></div>
-      <div class="diag-metric"><div class="diag-metric-label">商品转化率</div><div class="diag-metric-val">${(Math.random()*10+2).toFixed(1)}%</div></div>
+    <!-- 头部 -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+      <h2 style="margin:0;font-size:20px">📊 ${s.name}</h2>
+      <span style="background:#f0fdf4;color:#10b981;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid #bbf7d0">${s.am} 负责</span>
+      <span style="background:#eff6ff;color:#3b82f6;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid #bfdbfe">${s.cat}</span>
+      <span style="color:#bbb;font-size:12px">4/10-4/16</span>
     </div>
-    <div class="diag-section">
-      <div class="diag-section-title">▌ 综合评估</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-        <div style="background:#fff;border-radius:10px;padding:12px;border:1.5px solid #e2f0e8;text-align:center">
-          <div style="font-size:11px;color:#999;margin-bottom:4px">内容力</div>
-          <div style="font-size:17px;font-weight:800;color:#10b981">${['🟢 良好','🟡 一般','🔴 待提升'][Math.floor(Math.random()*3)]}</div>
-        </div>
-        <div style="background:#fff;border-radius:10px;padding:12px;border:1.5px solid #e2f0e8;text-align:center">
-          <div style="font-size:11px;color:#999;margin-bottom:4px">转化力</div>
-          <div style="font-size:17px;font-weight:800;color:#3b82f6">${['🟢 良好','🟡 一般','🔴 待提升'][Math.floor(Math.random()*3)]}</div>
-        </div>
-        <div style="background:#fff;border-radius:10px;padding:12px;border:1.5px solid #e2f0e8;text-align:center">
-          <div style="font-size:11px;color:#999;margin-bottom:4px">发布频次</div>
-          <div style="font-size:17px;font-weight:800;color:#f59e0b">${['🟢 达标','🟡 偏低','🔴 不足'][Math.floor(Math.random()*3)]}</div>
-        </div>
+
+    <!-- 核心指标 -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px">
+      <div style="background:#fff;border-radius:12px;padding:16px;border:1.5px solid #e2f0e8;text-align:center">
+        <div style="font-size:11px;color:#999;margin-bottom:6px">近7天笔记数</div>
+        <div style="font-size:22px;font-weight:800;color:#10b981">${s.notes.toLocaleString()}</div>
+        <div style="font-size:11px;color:#aaa;margin-top:2px">日均 ${s.daily.toFixed(1)} 篇 ${statusBadge(dailyLevel)}</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px;border:1.5px solid #e2f0e8;text-align:center">
+        <div style="font-size:11px;color:#999;margin-bottom:6px">笔记曝光</div>
+        <div style="font-size:22px;font-weight:800;color:#3b82f6">${s.imp >= 1000000 ? (s.imp/1000000).toFixed(1)+'M' : (s.imp/1000).toFixed(0)+'K'}</div>
+        <div style="font-size:11px;color:#aaa;margin-top:2px">${s.imp.toLocaleString()} 次曝光</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px;border:1.5px solid #e2f0e8;text-align:center">
+        <div style="font-size:11px;color:#999;margin-bottom:6px">笔记CTR</div>
+        <div style="font-size:22px;font-weight:800;color:${noteLevel.cls === 'green' ? '#10b981' : noteLevel.cls === 'red' ? '#ef4444' : '#f59e0b'}">${s.note_ctr}%</div>
+        <div style="font-size:11px;color:#aaa;margin-top:2px">行业均值 7% ${statusBadge(noteLevel)}</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px;border:1.5px solid #e2f0e8;text-align:center">
+        <div style="font-size:11px;color:#999;margin-bottom:6px">商卡CTR</div>
+        <div style="font-size:22px;font-weight:800;color:${tagLevel.cls === 'green' ? '#10b981' : tagLevel.cls === 'red' ? '#ef4444' : '#f59e0b'}">${s.tag_ctr}%</div>
+        <div style="font-size:11px;color:#aaa;margin-top:2px">行业均值 10% ${statusBadge(tagLevel)}</div>
       </div>
     </div>
-    <div class="diag-section">
-      <div class="diag-section-title">▌ 内容诊断 · 下一步怎么做</div>
-      <div class="diag-advice">
-        <div class="diag-advice-title">📝 建议</div>
-        <p>建议参考本周${['新鲜水果低卡标签','生肉购买力叙事','海鲜一人食策略','熟食独居小包装'][Math.floor(Math.random()*4)]}趋势方向，优化标题公式和封面视觉，提升商卡CTR和转化率。</p>
-        <div style="margin-top:12px;padding-top:10px;border-top:1px solid #fde68a">
-          <span style="font-size:12px;color:#92400e;font-weight:600">🛠 立即生成笔记提示词 →</span>
-          <a onclick="switchTab('tools');setTimeout(()=>document.getElementById('note-plan-section')?.scrollIntoView({behavior:'smooth'}),200)"
-             style="display:inline-block;margin-left:8px;font-size:12px;color:#10b981;font-weight:700;text-decoration:none;cursor:pointer;background:#fff;padding:3px 10px;border-radius:20px;border:1.5px solid #10b981">
-            跳转笔记策划工具 ↗
-          </a>
-        </div>
+
+    <!-- 补充指标 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+      <div style="background:#fff;border-radius:12px;padding:14px 16px;border:1.5px solid #e2f0e8">
+        <div style="font-size:12px;color:#999;margin-bottom:4px">购买转化率 (CVR)</div>
+        <div style="font-size:20px;font-weight:800;color:#8b5cf6">${s.cvr}%</div>
+        <div style="font-size:11px;color:#aaa;margin-top:2px">商卡点击→购买</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:14px 16px;border:1.5px solid #e2f0e8">
+        <div style="font-size:12px;color:#999;margin-bottom:4px">综合评级</div>
+        <div style="font-size:20px;font-weight:800;color:${diag.title.includes('🟢') ? '#10b981' : diag.title.includes('🔴') ? '#ef4444' : '#f59e0b'}">${diag.title}</div>
+        <div style="font-size:11px;color:#aaa;margin-top:2px">基于 CTR + CVR 四象限分析</div>
       </div>
     </div>
-    <div style="font-size:11px;color:#bbb;margin-top:12px">数据来源：小红书 BI · 近14天 · 如数据有误请联系白薇</div>
+
+    <!-- 诊断分析 -->
+    <div style="background:#fff;border-radius:14px;padding:20px;border:1.5px solid #e2f0e8;margin-bottom:16px">
+      <div style="font-size:15px;font-weight:700;margin-bottom:12px">▌ ${diag.title}</div>
+      <p style="font-size:14px;color:#555;line-height:1.7;margin-bottom:16px">${diag.desc}</p>
+      <div style="background:#f8fafc;border-radius:10px;padding:14px">
+        <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:8px">📋 建议动作：</div>
+        ${diag.actions.map(a => `<div style="font-size:13px;color:#555;line-height:1.8;padding:4px 0">${a}</div>`).join('')}
+      </div>
+    </div>
+
+    <!-- 类目建议 -->
+    <div style="background:#fff;border-radius:14px;padding:20px;border:1.5px solid #e2f0e8;margin-bottom:16px">
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px">▌ ${s.cat} · 行业风向建议</div>
+      <p style="font-size:14px;color:#555;line-height:1.7">${catAdvice}</p>
+    </div>
+
+    <!-- 跳转工具 -->
+    <div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-radius:14px;padding:16px 20px;border:1.5px solid #bbf7d0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <span style="font-size:13px;color:#166534;font-weight:600">🛠 立即生成笔记策划提示词 →</span>
+      </div>
+      <a onclick="switchTab('tools');setTimeout(()=>document.getElementById('note-plan-section')?.scrollIntoView({behavior:'smooth'}),200)"
+         style="display:inline-block;font-size:13px;color:#fff;font-weight:700;text-decoration:none;cursor:pointer;background:#10b981;padding:8px 18px;border-radius:24px;transition:all 0.2s"
+         onmouseover="this.style.background='#059669'"
+         onmouseout="this.style.background='#10b981'">
+        跳转笔记策划工具 ↗
+      </a>
+    </div>
+
+    <div style="font-size:11px;color:#bbb;margin-top:16px">数据来源：小红书 BI · 4/10-4/16（7天）· 覆盖48个生鲜商家</div>
   `;
 }
 

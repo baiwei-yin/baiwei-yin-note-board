@@ -6750,7 +6750,7 @@ const SELLER_DB = [
 const BENCH = {
   note_ctr: { top: 10, avg: 7, low: 5 },
   tag_ctr: { top: 12, avg: 10, low: 7 },
-  daily: { active: 10, normal: 3 }
+  daily: { high: 6.5, low: 1.9 } // 行业均值6.5 / 中位数1.9（4/3-4/16生鲜大盘）
 };
 
 function getBenchLevel(value, key) {
@@ -6824,7 +6824,7 @@ function runDiagnosis() {
   const s = matches[0];
   const noteLevel = getBenchLevel(s.note_ctr, 'note_ctr');
   const tagLevel = getBenchLevel(s.tag_ctr, 'tag_ctr');
-  const dailyLevel = s.daily >= BENCH.daily.active ? {label:'高频',cls:'green',emoji:'✅'} : s.daily >= BENCH.daily.normal ? {label:'正常',cls:'yellow',emoji:'⚠️'} : s.daily > 0 ? {label:'低频',cls:'orange',emoji:'⚠️'} : {label:'无发布',cls:'red',emoji:'🔴'};
+  const dailyLevel = s.daily >= BENCH.daily.high ? {label:'高于行业均值',cls:'green',emoji:'✅'} : s.daily >= BENCH.daily.low ? {label:'正常',cls:'yellow',emoji:'⚠️'} : s.daily > 0 ? {label:'偏低',cls:'orange',emoji:'⚠️'} : {label:'无发布',cls:'red',emoji:'🔴'};
   const diag = getDiagnosis(s.note_ctr, s.tag_ctr, s.cvr);
   const catAdvice = getCatAdvice(s.cat, s.note_ctr);
   const badge = (l) => {

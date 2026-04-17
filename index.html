@@ -716,7 +716,6 @@ function runDiagnosis() {
   const tagLevel = getBenchLevel(s.tag_ctr, 'tag_ctr');
   const dailyLevel = s.daily >= BENCH.daily.high ? {label:'高于行业均值',cls:'green',emoji:'✅'} : s.daily >= BENCH.daily.low ? {label:'正常',cls:'yellow',emoji:'⚠️'} : s.daily > 0 ? {label:'偏低',cls:'orange',emoji:'⚠️'} : {label:'无发布',cls:'red',emoji:'🔴'};
   const cvrLevel = s.cvr >= BENCH.cvr.avg ? {label:'高于行业均值',cls:'green',emoji:'✅'} : s.cvr >= BENCH.cvr.low ? {label:'正常',cls:'yellow',emoji:'⚠️'} : s.cvr > 0 ? {label:'偏低',cls:'orange',emoji:'⚠️'} : {label:'无转化',cls:'red',emoji:'🔴'};
-  const cvrLevel = s.cvr >= BENCH.cvr.avg ? {label:'高于行业均值',cls:'green',emoji:'✅'} : s.cvr >= BENCH.cvr.low ? {label:'正常',cls:'yellow',emoji:'⚠️'} : s.cvr > 0 ? {label:'偏低',cls:'orange',emoji:'⚠️'} : {label:'无转化',cls:'red',emoji:'🔴'};
   const diag = getDiagnosis(s.note_ctr, s.tag_ctr, s.cvr);
   const catAdvice = getCatAdvice(s.cat, s.note_ctr);
   const badge = (l) => {

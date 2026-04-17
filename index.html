@@ -715,6 +715,8 @@ function runDiagnosis() {
   const noteLevel = getBenchLevel(s.note_ctr, 'note_ctr');
   const tagLevel = getBenchLevel(s.tag_ctr, 'tag_ctr');
   const dailyLevel = s.daily >= BENCH.daily.high ? {label:'高于行业均值',cls:'green',emoji:'✅'} : s.daily >= BENCH.daily.low ? {label:'正常',cls:'yellow',emoji:'⚠️'} : s.daily > 0 ? {label:'偏低',cls:'orange',emoji:'⚠️'} : {label:'无发布',cls:'red',emoji:'🔴'};
+  const cvrLevel = s.cvr >= BENCH.cvr.avg ? {label:'高于行业均值',cls:'green',emoji:'✅'} : s.cvr >= BENCH.cvr.low ? {label:'正常',cls:'yellow',emoji:'⚠️'} : s.cvr > 0 ? {label:'偏低',cls:'orange',emoji:'⚠️'} : {label:'无转化',cls:'red',emoji:'🔴'};
+  const cvrLevel = s.cvr >= BENCH.cvr.avg ? {label:'高于行业均值',cls:'green',emoji:'✅'} : s.cvr >= BENCH.cvr.low ? {label:'正常',cls:'yellow',emoji:'⚠️'} : s.cvr > 0 ? {label:'偏低',cls:'orange',emoji:'⚠️'} : {label:'无转化',cls:'red',emoji:'🔴'};
   const diag = getDiagnosis(s.note_ctr, s.tag_ctr, s.cvr);
   const catAdvice = getCatAdvice(s.cat, s.note_ctr);
   const badge = (l) => {
@@ -748,7 +750,7 @@ function runDiagnosis() {
       <div style="background:#fff;border-radius:12px;padding:16px;border:1.5px solid #e2f0e8;text-align:center">
         <div style="font-size:11px;color:#999;margin-bottom:6px">购买转化率</div>
         <div style="font-size:22px;font-weight:800;color:#8b5cf6">${s.cvr}%</div>
-        <div style="font-size:11px;color:#aaa;margin-top:2px">商卡点击→购买</div>
+        <div style="font-size:11px;color:#aaa;margin-top:2px">行业均值 5% ${badge(cvrLevel)}</div>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:16px">

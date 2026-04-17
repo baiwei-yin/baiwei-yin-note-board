@@ -506,7 +506,7 @@
   <div id="panel-diag" class="tab-panel hidden">
     <div class="diag-intro">
       <h2>🔍 商品笔记账号诊断</h2>
-      <p>输入店铺名，秒出诊断。基于 611 个生鲜商家真实数据（近14天）。</p>
+      <p>输入店铺名，秒出诊断。基于行业真实数据（近14天）。</p>
     </div>
     <div class="diag-search">
       <input type="text" id="diagInput" placeholder="输入店铺名关键词，如：果小乐、野里鲜果" onkeydown="if(event.key==='Enter')runDiagnosis()" />
@@ -632,7 +632,7 @@ function switchTab(tab) {
 }
 
 // 账号诊断
-// 商家数据库（611个商家，近14天新发商笔数>0）
+// 商家数据库（行业商家，近14天新发商笔数>0）
 const SELLER_DB = [
   {
     "name": "甘果四喜旗舰店",
@@ -6818,7 +6818,7 @@ function runDiagnosis() {
   const result = document.getElementById('diagResult');
   result.classList.add('show');
   if (matches.length === 0) {
-    result.innerHTML = `<div style="text-align:center;padding:40px 20px"><div style="font-size:48px;margin-bottom:16px">🔍</div><h3 style="color:#666;margin-bottom:8px">未找到「${query}」</h3><p style="color:#999;font-size:14px;margin-bottom:16px">请检查店铺名或尝试其他关键词</p><p style="color:#bbb;font-size:12px">当前覆盖 611 个生鲜商家（近14天）</p></div>`;
+    result.innerHTML = `<div style="text-align:center;padding:40px 20px"><div style="font-size:48px;margin-bottom:16px">🔍</div><h3 style="color:#666;margin-bottom:8px">未找到「${query}」</h3><p style="color:#999;font-size:14px;margin-bottom:16px">请检查店铺名或尝试其他关键词</p><p style="color:#bbb;font-size:12px">当前覆盖 多个商家（近14天）</p></div>`;
     return;
   }
   const s = matches[0];
@@ -6879,7 +6879,7 @@ function runDiagnosis() {
       <span style="font-size:13px;color:#166534;font-weight:600">🛠 立即生成笔记策划提示词 →</span>
       <a onclick="switchTab('tools');setTimeout(()=>document.getElementById('note-plan-section')?.scrollIntoView({behavior:'smooth'}),200)" style="display:inline-block;font-size:13px;color:#fff;font-weight:700;text-decoration:none;cursor:pointer;background:#10b981;padding:8px 18px;border-radius:24px" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">跳转笔记策划工具 ↗</a>
     </div>
-    <div style="font-size:11px;color:#bbb;margin-top:16px">数据来源：小红书 BI · 近14天 · 覆盖 611 个生鲜商家</div>
+    <div style="font-size:11px;color:#bbb;margin-top:16px">数据来源：小红书 BI · 近14天 · 覆盖 多个商家</div>
   `;
 }
 

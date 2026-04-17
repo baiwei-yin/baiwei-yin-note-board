@@ -639,7 +639,8 @@ const SELLER_DB = [{"name": "甘果四喜旗舰店", "notes": 4031, "daily": 287
 const BENCH = {
   note_ctr: { top: 10, avg: 7, low: 5 },
   tag_ctr: { top: 12, avg: 10, low: 7 },
-  daily: { high: 6.5, low: 1.9 } // 行业均值6.5 / 中位数1.9（4/3-4/16生鲜大盘）
+  daily: { high: 6.5, low: 1.9 }, // 行业均值6.5 / 中位数1.9（4/3-4/16生鲜大盘）
+  cvr: { avg: 10.8, low: 8.1 } // 行业均值10.8% / 中位数8.1%（4/3-4/16生鲜大盘）
 };
 
 function getBenchLevel(value, key) {
@@ -652,7 +653,7 @@ function getBenchLevel(value, key) {
 
 function getDiagnosis(note_ctr, tag_ctr, cvr) {
   const ctrHigh = note_ctr >= BENCH.note_ctr.avg;
-  const cvrHigh = cvr >= 8;
+  const cvrHigh = cvr >= BENCH.cvr.avg;
   if (ctrHigh && cvrHigh) {
     return {
       title: '🟢 内容转化双优',
